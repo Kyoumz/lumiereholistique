@@ -1,0 +1,70 @@
+/* Style global pour le header */
+header {
+  background-color: black;
+  padding: 10px 20px;
+}
+
+/* Style du navbar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+}
+
+/* Liste des éléments de navigation */
+.nav-list {
+  list-style-type: none;
+  display: flex;
+  margin: 0;
+  padding: 0;
+}
+
+/* Style des liens de navigation */
+.nav-item {
+  color: white;
+  margin: 0 15px;
+  text-decoration: none;
+  font-size: 16px;
+  padding: 5px 0;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+/*Effet de survol des liens */
+.nav-item:hover {
+  color: #fff;
+}
+
+/*Ligne blanche sous le lien au survol */
+.nav-item::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: white;
+  transform: scaleX(0);
+  transition: transform 0.3s ease-in-out;
+}
+
+.nav-item:hover::after {
+  transform: scaleX(1);
+}
+
+/*Style du bouton d'inscription */
+.btn-inscription {
+    background-color: #7ad1dd;
+    border: none;
+    padding: 10px 20px;
+    color: black;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .btn-inscription:hover {
+    background-color: #0fe0e0;
+  }
