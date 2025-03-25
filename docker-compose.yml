@@ -10,3 +10,7 @@ services:
     build: ./backend
     ports:
       - "5010:5000"
+    volumes:
+      - ./backend:/app  
+      - /app/node_modules  
+    command: ["nodemon", "server.js"]
