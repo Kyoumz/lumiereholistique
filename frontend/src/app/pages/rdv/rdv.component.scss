@@ -1,0 +1,79 @@
+/* Adding space between the form and footer */
+
+/* Réinitialisation des marges et paddings par défaut */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+    
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+}
+.main-title {
+    width: 100%;
+    text-align: center;
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 30px;
+}
+
+
+main {
+    padding: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 50px; 
+    margin-bottom: 230px;
+}
+
+.card {
+    background-color: #fff;
+    width: 300px;
+    height: 350px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+    margin: 10px;
+
+}
+
+.card h2 {
+    font-size: 1.5rem;
+    color: #333;
+}
+
+.card p {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.button {
+    text-decoration: none; /* Supprime le soulignement */
+    display: inline-block; /* Permet au lien de se comporter comme un bouton */
+    background-color: #66b4cc;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+    text-align: center;
+}
+
+
+.button:hover {
+    background-color: #9ddbee;
+}
+
+main {
+    margin-top: 50px; /* Espace entre le header et le formulaire */
+    margin-bottom: 230px; /* Espace entre le formulaire et le footer */
+}

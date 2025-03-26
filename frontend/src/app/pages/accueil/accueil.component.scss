@@ -1,0 +1,77 @@
+/* Centrer les éléments du contenu */
+.content {
+  max-width: 1120px;
+  margin: 50px auto;
+}
+
+/* Centrer les éléments principaux */
+main {
+  margin-top: 50px; 
+  margin-bottom: 230px;
+}
+
+/* Style du titre */
+.title {
+  background-color: #66b4cc;
+  padding: 15px;
+  border-radius: 15px;
+  width: auto;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  margin-bottom: 30px;
+  color: white;
+}
+
+/* Conteneur pour la vidéo */
+.video-container {
+  position: relative;
+  padding-top: 56.25%; /* 16:9 Aspect Ratio */
+  margin-bottom: 30px;
+}
+
+.video-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+}
+
+/* Conteneur pour la présentation */
+.presentation-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px; /* Espacement entre les éléments */
+  margin-top: 20px;
+}
+
+/* Style du logo */
+.logo {
+  max-width: 280px; /* Taille du logo */
+  border-radius: 15px;
+}
+
+/* Style des cartes */
+.card {
+  background-color: #66b4cc;
+  padding: 20px;
+  border-radius: 15px;
+  width: 80%;
+  max-width: 900px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  color: white;
+  margin-bottom: 20px;
+}
+
+/* Style du pied de page */
+app-footer {
+  background-color: #f0f0f0;
+  padding: 20px;
+  border-radius: 15px;
+  width: 100%;
+  margin-top: 50px;
+  text-align: center;
+}
