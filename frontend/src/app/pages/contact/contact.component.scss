@@ -1,54 +1,127 @@
 @import url(https://fonts.googleapis.com/css?family=Montserrat:400,700);
 
-body { background:rgb(30,30,40); }
-form { max-width:420px; margin:50px auto; }
-
-.feedback-input {
-  color:white;
-  font-family: Helvetica, Arial, sans-serif;
-  font-weight:500;
-  font-size: 18px;
-  border-radius: 5px;
-  line-height: 22px;
-  background-color: transparent;
-  border:2px solid #66b4cc;
-  transition: all 0.3s;
-  padding: 13px;
-  margin-bottom: 15px;
-  width:100%;
-  box-sizing: border-box;
-  outline:0;
+body {
+    background: rgb(255, 255, 255);
+    position: relative;
+    overflow: hidden; 
 }
 
-.feedback-input:focus { border:2px solid #66b4cc; }
+form {
+    max-width: 420px;
+    margin: 50px auto;
+}
+
+.feedback-input {
+    color: white;
+    font-family: Helvetica, Arial, sans-serif;
+    font-weight: 500;
+    font-size: 18px;
+    border-radius: 5px;
+    line-height: 22px;
+    background-color: transparent;
+    border: 2px solid #66b4cc;
+    transition: all 0.3s;
+    padding: 13px;
+    margin-bottom: 15px;
+    width: 100%;
+    box-sizing: border-box;
+    outline: 0;
+}
+
+.feedback-input:focus {
+    border: 2px solid #66b4cc;
+}
 
 textarea {
-  height: 150px;
-  line-height: 150%;
-  resize:vertical;
+    height: 150px;
+    line-height: 150%;
+    resize: vertical;
 }
 
 [type="submit"] {
-  font-family: 'Montserrat', Arial, Helvetica, sans-serif;
-  width: 100%;
-  background:#66b4cc;
-  border-radius:5px;
-  border:0;
-  cursor:pointer;
-  color:white;
-  font-size:24px;
-  padding-top:10px;
-  padding-bottom:10px;
-  transition: all 0.3s;
-  margin-top:-4px;
-  font-weight:700;
+    font-family: 'Montserrat', Arial, Helvetica, sans-serif;
+    width: 100%;
+    background: #66b4cc;
+    border-radius: 5px;
+    border: 0;
+    cursor: pointer;
+    color: white;
+    font-size: 24px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    transition: all 0.3s;
+    margin-top: -4px;
+    font-weight: 700;
 }
-[type="submit"]:hover { background:#66b4cc; }
 
-h1{
-color: white;
-background-color: #66b4cc;
-border-radius: 50%;
-text-align: center;
-padding: 10%;
+[type="submit"]:hover {
+    background: #66b4cc;
+}
+
+h1 {
+    color: white;
+    background-color: #66b4cc;
+    border-radius: 50%;
+    text-align: center;
+    padding: 10%;
+}
+
+/* Adding space between the form and footer */
+main {
+    margin-top: 50px; /* Espace entre le header et le formulaire */
+    margin-bottom: 230px; /* Espace entre le formulaire et le footer */
+}
+
+/* Adding circular blue shapes in the background */
+body::before,
+body::after {
+    content: "";
+    position: absolute;
+    background-color: #66b4cc;
+    border-radius: 50%;
+    opacity: 0.3;
+    z-index: -1;
+}
+
+body::before {
+    top: 10%;
+    left: 20%;
+    width: 150px;
+    height: 150px;
+}
+
+body::after {
+    bottom: 10%;
+    right: 15%;
+    width: 120px;
+    height: 120px;
+}
+
+.circle {
+    position: absolute;
+    background-color: #66b4cc;
+    border-radius: 50%;
+    opacity: 0.3;
+    z-index: -1;
+}
+
+.circle1 {
+    width: 100px;
+    height: 100px;
+    top: 20%;
+    left: 10%;
+}
+
+.circle2 {
+    width: 150px;
+    height: 150px;
+    top: 30%;
+    right: 5%;
+}
+
+.circle3 {
+    width: 120px;
+    height: 120px;
+    bottom: 20%;
+    left: 50%;
 }
