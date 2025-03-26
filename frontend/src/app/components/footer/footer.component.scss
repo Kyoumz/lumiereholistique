@@ -1,0 +1,164 @@
+/* Importation des polices */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+
+/* Réinitialisation des styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Assure que le body prend toute la hauteur de l'écran */
+html, body {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Poppins', sans-serif;
+    background: #eef8ff;
+}
+
+/* Permet au contenu principal de prendre l'espace disponible */
+main {
+    flex: 1;
+}
+
+/* Style du footer */
+footer {
+    width: 100%;
+    background: #000000;
+    color: #fff;
+    padding: 50px 20px;
+    position: relative;
+}
+
+/* Conteneur principal du footer */
+.container {
+    width: 90%;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+
+/* Ligne de séparation sous les titres */
+.container h3::after {
+    content: "";
+    display: block;
+    height: 2px;
+    width: 50px;
+    background: #fff;
+    margin-top: 20px;
+}
+
+/* Effet de survol sur les liens */
+.container li a:hover {
+    color: #e701e7;
+    transition: all 0.5s ease;
+}
+
+/* Styles des différentes colonnes */
+.col-1, .col-2, .col-3, .col-4 {
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+/* Colonne 1 (Logo + Description) */
+.col-1 {
+    flex-basis: 30%;
+}
+.col-1 img {
+    width: 55px;
+    margin-bottom: 15px;
+}
+.col-1 p {
+    color: #fff;
+    font-size: 15px;
+    line-height: 20px;
+}
+
+/* Colonnes 2 et 3 (Liens) */
+.col-2, .col-3 {
+    flex-basis: 15%;
+}
+.col-2 h3, .col-3 h3 {
+    color: #fff;
+    font-size: 20px;
+    margin-bottom: 15px;
+}
+.col-2 ul, .col-3 ul {
+    list-style: none;
+}
+.col-2 ul li, .col-3 ul li {
+    margin-bottom: 10px;
+}
+.col-2 ul li a, .col-3 ul li a {
+    color: #fff;
+    text-decoration: none;
+}
+
+/* Colonne 4 (Newsletter) */
+.col-4 {
+    flex-basis: 20%;
+}
+.col-4 h3 {
+    color: #fff;
+    font-size: 20px;
+    margin-bottom: 15px;
+}
+form {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 20px;
+}
+form .far {
+    color: #ccc;
+    margin-right: 10px;
+}
+form input {
+    background: transparent;
+    width: 100%;
+    border: none;
+    color: #fff;
+    outline: none;
+}
+form button {
+    background: transparent;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    outline: none;
+}
+
+/* Icônes sociales */
+.social-icons {
+    margin-top: 50px;
+}
+.social-icons a {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    background: #fff;
+    color: #25262A;
+    text-align: center;
+    line-height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    transition: all 0.5s ease;
+}
+.social-icons a:hover {
+    background: #e701e7;
+    color: #fff;
+}
+
+/* Bas de page */
+.footer-2 {
+    width: 100%;
+    background: #000000;
+    color: #fff;
+    padding-top: 20px;
+    text-align: center;
+}
