@@ -3,7 +3,7 @@ import { AccueilComponent } from './pages/accueil/accueil.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { LoginComponent } from './pages/login/login.component';
 import {ContactComponent} from './pages/contact/contact.component';
-import {RdvComponent} from './pages/rdv/rdv.component'
+import {RdvComponent} from './pages/rdv/rdv.component';
 import { FormationComponent } from './pages/formation/formation.component';
 import { SanteComponent } from './pages/sante/sante.component';
 import { BlogComponent } from './pages/blog/blog.component';
