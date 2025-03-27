@@ -1,13 +1,3 @@
-/* Adding space between the form and footer */
-
-/* Réinitialisation des marges et paddings par défaut */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-
-    
-}
 
 body {
     font-family: Arial, sans-serif;
@@ -22,7 +12,7 @@ body {
 }
 
 
-main {
+.container {
     padding: 20px;
     display: flex;
     flex-wrap: wrap;
@@ -73,7 +63,3 @@ main {
     background-color: #9ddbee;
 }
 
-main {
-    margin-top: 50px; /* Espace entre le header et le formulaire */
-    margin-bottom: 230px; /* Espace entre le formulaire et le footer */
-}

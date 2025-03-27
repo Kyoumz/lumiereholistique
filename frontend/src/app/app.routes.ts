@@ -4,6 +4,9 @@ import { RegisterComponent } from './pages/register/register.component';
 import { LoginComponent } from './pages/login/login.component';
 import {ContactComponent} from './pages/contact/contact.component';
 import {RdvComponent} from './pages/rdv/rdv.component'
+import { FormationComponent } from './pages/formation/formation.component';
+import { SanteComponent } from './pages/sante/sante.component';
+import { BlogComponent } from './pages/blog/blog.component';
 
 export const routes: Routes = [
   { path: '', component: AccueilComponent }, 
@@ -11,6 +14,9 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'contact', component: ContactComponent },
   { path: 'rdv', component: RdvComponent },
+  { path: 'formation', component: FormationComponent },
+  { path: 'sante', component: SanteComponent },
+  { path: 'blog', component: BlogComponent },
 
 
 ];
