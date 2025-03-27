@@ -1,13 +1,14 @@
 /* Centrer les éléments du contenu */
 .content {
   max-width: 1120px;
-  margin: 50px auto;
+  margin: 0 auto; /* Supprime la marge en haut et en bas */
+  padding: 50px 0; /* Ajoute un padding si besoin d'espace */
 }
+
 
 /* Centrer les éléments principaux */
 main {
-  margin-top: 50px; 
-  margin-bottom: 230px;
+  background-color: #f4f4f9;
 }
 
 /* Style du titre */
@@ -66,12 +67,3 @@ main {
   margin-bottom: 20px;
 }
 
-/* Style du pied de page */
-app-footer {
-  background-color: #f0f0f0;
-  padding: 20px;
-  border-radius: 15px;
-  width: 100%;
-  margin-top: 50px;
-  text-align: center;
-}

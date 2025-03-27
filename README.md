@@ -6,5 +6,5 @@ ng serve
 Back :
 node server.js
 
-Front & Back
+Front & Back :
 sudo docker-compose up --build
