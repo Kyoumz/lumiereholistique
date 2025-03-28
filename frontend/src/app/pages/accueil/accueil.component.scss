@@ -1,14 +1,74 @@
 /* Centrer les éléments du contenu */
 .content {
-  max-width: 1120px;
-  margin: 0 auto; /* Supprime la marge en haut et en bas */
-  padding: 50px 0; /* Ajoute un padding si besoin d'espace */
+  max-width: 1220px;
+  margin: 0 auto;
+  padding: 50px 0;
+  font-family: 'Roboto', sans-serif;
 }
-
 
 /* Centrer les éléments principaux */
 main {
-  background-color: #f4f4f9;
+  // background-color: #f4f4f9;
+  position: relative;
+  overflow: hidden; /* Assure que les formes sont visibles */
+}
+
+/* Ajout de formes dans le background */
+main::before, main::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.15;
+  z-index: -1;
+}
+
+main::before {
+  width: 250px;
+  height: 250px;
+  background: #66b4cc;
+  top: 10%;
+  left: -50px;
+}
+
+main::after {
+  width: 300px;
+  height: 300px;
+  background: #9ddbee;
+  bottom: 15%;
+  right: -70px;
+}
+
+/* Shapes circulaires supplémentaires */
+.shape {
+  position: absolute;
+  background-color: #4ac4d3;
+  opacity: 0.5;
+  border-radius: 50%;
+  z-index: -2;
+}
+
+.shape1 {
+  width: 200px;
+  height: 180px;
+  top: 10%;
+  left: 15%;
+  transform: rotate(20deg);
+}
+
+.shape2 {
+  width: 250px;
+  height: 200px;
+  top: 40%;
+  right: 10%;
+  transform: rotate(-15deg);
+}
+
+.shape3 {
+  width: 180px;
+  height: 150px;
+  bottom: 15%;
+  left: 40%;
+  transform: rotate(30deg);
 }
 
 /* Style du titre */
@@ -21,12 +81,14 @@ main {
   text-align: center;
   margin-bottom: 30px;
   color: white;
+  font-size: 28px; 
+  font-weight: bold;
 }
 
 /* Conteneur pour la vidéo */
 .video-container {
   position: relative;
-  padding-top: 56.25%; /* 16:9 Aspect Ratio */
+  padding-top: 56.25%;
   margin-bottom: 30px;
 }
 
@@ -44,26 +106,33 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px; /* Espacement entre les éléments */
+  gap: 30px;
   margin-top: 20px;
-}
-
-/* Style du logo */
-.logo {
-  max-width: 280px; /* Taille du logo */
-  border-radius: 15px;
 }
 
 /* Style des cartes */
 .card {
   background-color: #66b4cc;
-  padding: 20px;
+  padding: 25px;
   border-radius: 15px;
   width: 80%;
   max-width: 900px;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  text-align: center;
   color: white;
+  text-align: justify;
   margin-bottom: 20px;
 }
 
+/* Style des paragraphes dans les cartes */
+.description {
+  font-size: 18px;
+  line-height: 1.6;
+  margin-bottom: 15px;
+  font-family: 'Roboto', sans-serif;
+}
+
+/* Style du logo (si vous souhaitez l'ajouter plus tard) */
+.logo {
+  max-width: 300px;
+  border-radius: 15px;
+}

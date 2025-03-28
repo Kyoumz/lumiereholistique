@@ -1,8 +1,71 @@
-
-body {
+/* Styles généraux */
+main {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f9;
+    position: relative;
+    padding: 100px 0;
+    overflow: hidden; /* Les formes seront visibles */
+
 }
+
+/* Ajout de formes dans le background */
+main::before, main::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.15;
+    z-index: -1; /* Placer derrière le contenu mais devant les formes */
+}
+
+main::before {
+    width: 250px;
+    height: 250px;
+    background: #66b4cc;
+    top: 10%;
+    left: -50px;
+}
+
+main::after {
+    width: 300px;
+    height: 300px;
+    background: #9ddbee;
+    bottom: 15%;
+    right: -70px;
+}
+
+/* Shapes circulaires supplémentaires */
+.shape {
+    position: absolute;
+    background-color: #4ac4d3;
+    opacity: 0.5;
+    border-radius: 50%;
+    z-index: -2; /* S'assurer que les formes circulaires restent derrière les cartes */
+}
+
+.shape1 {
+    width: 200px;
+    height: 180px;
+    top: 10%;
+    left: 15%;
+    transform: rotate(20deg);
+}
+
+.shape2 {
+    width: 250px;
+    height: 200px;
+    top: 40%;
+    right: 10%;
+    transform: rotate(-15deg);
+}
+
+.shape3 {
+    width: 180px;
+    height: 150px;
+    bottom: 15%;
+    left: 40%;
+    transform: rotate(30deg);
+}
+
+/* Titre principal */
 .main-title {
     width: 100%;
     text-align: center;
@@ -11,16 +74,16 @@ body {
     margin-bottom: 30px;
 }
 
-
+/* Conteneur principal */
 .container {
     padding: 20px;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    margin-top: 50px; 
-    margin-bottom: 230px;
+    margin: 0 auto;
 }
 
+/* Cartes */
 .card {
     background-color: #fff;
     width: 300px;
@@ -30,23 +93,32 @@ body {
     padding: 20px;
     text-align: center;
     margin: 10px;
-
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
 }
 
+/* Effet au survol des cartes */
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 16px rgba(102, 180, 204, 0.5);
+}
+
+/* Titres des cartes */
 .card h2 {
     font-size: 1.5rem;
     color: #333;
 }
 
+/* Texte des cartes */
 .card p {
     font-size: 1rem;
     color: #666;
     margin-bottom: 20px;
 }
 
+/* Bouton */
 .button {
-    text-decoration: none; /* Supprime le soulignement */
-    display: inline-block; /* Permet au lien de se comporter comme un bouton */
+    text-decoration: none;
+    display: inline-block;
     background-color: #66b4cc;
     color: white;
     border: none;
@@ -58,8 +130,7 @@ body {
     text-align: center;
 }
 
-
+/* Effet au survol du bouton */
 .button:hover {
-    background-color: #9ddbee;
+    background-color: #0fb7eaf7;
 }
-
