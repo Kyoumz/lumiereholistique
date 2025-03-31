@@ -1,44 +1,82 @@
-/* Styles généraux */
 main {
     font-family: Arial, sans-serif;
     position: relative;
     padding: 100px 0;
-    overflow: hidden; /* Les formes seront visibles */
-
+    overflow: hidden;
 }
 
-/* Ajout de formes dans le background */
-main::before, main::after {
-    content: "";
-    position: absolute;
-    border-radius: 50%;
-    opacity: 0.15;
-    z-index: -1; /* Placer derrière le contenu mais devant les formes */
+.main-title {
+    width: 100%;
+    text-align: center;
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 30px;
 }
 
-main::before {
-    width: 250px;
-    height: 250px;
-    background: #66b4cc;
-    top: 10%;
-    left: -50px;
+.container {
+    padding: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 0 auto;
 }
 
-main::after {
+.card {
+    background-color: #fff;
     width: 300px;
-    height: 300px;
-    background: #9ddbee;
-    bottom: 15%;
-    right: -70px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+    margin: 10px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Shapes circulaires supplémentaires */
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 16px rgba(102, 180, 204, 0.5);
+}
+
+.card-img {
+    width: 100%;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+.card h2 {
+    font-size: 1.5rem;
+    color: #333;
+}
+
+.card p {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.button {
+    text-decoration: none;
+    display: inline-block;
+    background-color: #66b4cc;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.button:hover {
+    background-color: #0fb7eaf7;
+}
+
 .shape {
     position: absolute;
     background-color: #4ac4d3;
     opacity: 0.5;
     border-radius: 50%;
-    z-index: -2; /* S'assurer que les formes circulaires restent derrière les cartes */
+    z-index: -2;
 }
 
 .shape1 {
@@ -63,74 +101,4 @@ main::after {
     bottom: 15%;
     left: 40%;
     transform: rotate(30deg);
-}
-
-/* Titre principal */
-.main-title {
-    width: 100%;
-    text-align: center;
-    font-size: 2rem;
-    color: #333;
-    margin-bottom: 30px;
-}
-
-/* Conteneur principal */
-.container {
-    padding: 20px;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin: 0 auto;
-}
-
-/* Cartes */
-.card {
-    background-color: #fff;
-    width: 300px;
-    height: 350px;
-    border-radius: 15px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    text-align: center;
-    margin: 10px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
-}
-
-/* Effet au survol des cartes */
-.card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 8px 16px rgba(102, 180, 204, 0.5);
-}
-
-/* Titres des cartes */
-.card h2 {
-    font-size: 1.5rem;
-    color: #333;
-}
-
-/* Texte des cartes */
-.card p {
-    font-size: 1rem;
-    color: #666;
-    margin-bottom: 20px;
-}
-
-/* Bouton */
-.button {
-    text-decoration: none;
-    display: inline-block;
-    background-color: #66b4cc;
-    color: white;
-    border: none;
-    border-radius: 30px;
-    padding: 10px 20px;
-    cursor: pointer;
-    font-size: 1rem;
-    transition: background-color 0.3s ease;
-    text-align: center;
-}
-
-/* Effet au survol du bouton */
-.button:hover {
-    background-color: #0fb7eaf7;
 }
