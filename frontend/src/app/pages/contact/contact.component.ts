@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { HeaderComponent } from '../../components/header/header.component';  
 import { FooterComponent } from '../../components/footer/footer.component'; 
+import { EmailService } from '../../services/email.service'
 
 @Component({
   selector: 'app-contact',
@@ -13,3 +14,6 @@ import { FooterComponent } from '../../components/footer/footer.component';
 export class ContactComponent {
 
 }
+
+
+
