@@ -5,32 +5,37 @@
         <h1 class="main-title">Blog & Témoignages</h1>
 
         <div class="card">
-            <img src="https://corinefiorenti.com/wp-content/uploads/2022/12/comment-reussir-sa-psychotherapie.jpg" alt="Article 1" class="card-img">
+            <img src="https://corinefiorenti.com/wp-content/uploads/2022/12/comment-reussir-sa-psychotherapie.jpg"
+                alt="Article 1" class="card-img">
             <h2>Comment améliorer sa productivité</h2>
             <p>Découvrez des astuces pour mieux gérer votre temps et être plus efficace.</p>
             <a href="#" class="button">Lire l'article</a>
         </div>
 
         <div class="card">
-            <img src="https://www.c2.care/wp-content/uploads/2024/07/yoga-meditation-pleine-conscience-1080x675-1.jpg" alt="Article 2" class="card-img">
+            <img src="https://www.c2.care/wp-content/uploads/2024/07/yoga-meditation-pleine-conscience-1080x675-1.jpg"
+                alt="Article 2" class="card-img">
             <h2>Les bienfaits de la méditation</h2>
             <p>Apprenez comment la méditation peut améliorer votre bien-être au quotidien.</p>
             <a href="#" class="button">Lire l'article</a>
         </div>
 
-        <div class="card">
-            <img src="https://guideetudiant.sorbonne-universite.fr/sites/default/files/styles/large/public/media/2022-06/14_aidesetsant%C3%A9_universit%C3%A9_sant%C3%A9mentale1.jpg?itok=7Ub6njUK" alt="Article 3" class="card-img">
-            <h2>Alimentation et santé mentale</h2>
-            <p>Comprenez l'impact de votre alimentation sur votre état d'esprit.</p>
+        <div *ngFor="let article of articles" class="card">
+            <img [src]="article.image" [alt]="article.title" class="card-img">
+            <h2>{{ article.title }}</h2>
+            <p>{{ article.description }}</p>
             <a href="#" class="button">Lire l'article</a>
         </div>
     </div>
 
     <h2 class="main-title">Témoignages</h2>
     <div class="video-container">
-        <iframe width="300" height="200" src="https://www.youtube.com/embed/FgQR2O8PGf4" frameborder="0" allowfullscreen></iframe>
-        <iframe width="300" height="200" src="https://www.youtube.com/embed/59_7B54Hq38" frameborder="0" allowfullscreen></iframe>
-        <iframe width="300" height="200" src="https://www.youtube.com/embed/RoFWYpmlCoo" frameborder="0" allowfullscreen></iframe>
+        <iframe width="300" height="200" src="https://www.youtube.com/embed/FgQR2O8PGf4" frameborder="0"
+            allowfullscreen></iframe>
+        <iframe width="300" height="200" src="https://www.youtube.com/embed/59_7B54Hq38" frameborder="0"
+            allowfullscreen></iframe>
+        <iframe width="300" height="200" src="https://www.youtube.com/embed/RoFWYpmlCoo" frameborder="0"
+            allowfullscreen></iframe>
     </div>
 
     <div class="shape shape1"></div>

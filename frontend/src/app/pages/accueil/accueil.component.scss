@@ -1,6 +1,6 @@
 /* Centrer les éléments du contenu */
 .content {
-  max-width: 1220px;
+  max-width: 1000px;
   margin: 0 auto;
   padding: 50px 0;
   font-family: 'Roboto', sans-serif;
@@ -8,7 +8,6 @@
 
 /* Centrer les éléments principaux */
 main {
-  // background-color: #f4f4f9;
   position: relative;
   overflow: hidden; /* Assure que les formes sont visibles */
 }
@@ -68,6 +67,14 @@ main::after {
   height: 150px;
   bottom: 15%;
   left: 40%;
+  transform: rotate(30deg);
+}
+
+.shape4 {
+  width: 180px;
+  height: 150px;
+  bottom: 1%;
+  left: 10%;
   transform: rotate(30deg);
 }
 
@@ -135,4 +142,47 @@ main::after {
 .logo {
   max-width: 300px;
   border-radius: 15px;
+}
+
+/* Section témoignages */
+.testimonial-container {
+  display: flex;
+  justify-content: space-around;
+  gap: 30px;
+  margin-top: 40px;
+}
+
+/* Style des cartes témoignages */
+.testimonial-card {
+  background-color: #f4f4f9;
+  border-radius: 15px;
+  width: 250px;
+  padding: 20px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Effet au survol des cartes témoignages */
+.testimonial-card:hover {
+  transform: translateY(-10px);
+}
+
+.testimonial-img {
+  width: 100%;
+  height: auto;
+  border-radius: 50%;
+  margin-bottom: 15px;
+}
+
+.testimonial-text {
+  font-size: 16px;
+  margin-bottom: 10px;
+  font-style: italic;
+}
+
+/* Style des étoiles */
+.stars {
+  color: #fbc02d;
+  font-size: 18px;
 }
