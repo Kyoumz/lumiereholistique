@@ -4,6 +4,7 @@ import { HeaderComponent } from '../../components/header/header.component';
 import { FooterComponent } from '../../components/footer/footer.component';
 import { BlogService } from '../../services/blog.service';
 import { CommonModule } from '@angular/common'; 
+
 @Component({
   selector: 'app-blog',
   standalone: true,
@@ -17,11 +18,10 @@ export class BlogComponent {
   constructor(private blogService: BlogService) {}
 
   ngOnInit() {
-    console.log('ngOnInit() appelé');
     this.blogService.getArticles().subscribe(
       (data: any[]) => {
         this.articles = data;
-        console.log('Articles récupérés :', data);
+        // console.log('Articles récupérés :', data);
       },
       (error: any) => {
         console.error('Erreur lors du chargement des articles', error);

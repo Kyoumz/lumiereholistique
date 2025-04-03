@@ -11,7 +11,15 @@ const Formation = sequelize.define('Formation', {
       type: DataTypes.STRING,
       allowNull: false,
     },
+    image: {
+      type: DataTypes.STRING,
+      allowNull: true, 
+    },
     description: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
+    content: {
       type: DataTypes.TEXT,
       allowNull: false,
     },

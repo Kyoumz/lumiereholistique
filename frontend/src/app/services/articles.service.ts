@@ -5,17 +5,16 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class BlogService {
+export class ArticlesService {
   private apiUrl = 'http://lumiereholistique_backend_1:5000/api/articles';
 
   constructor(private http: HttpClient) {}
 
-  getArticles(): Observable<any[]> {
+  getformations(): Observable<any[]> {
     return this.http.get<any[]>(this.apiUrl);
   }
 
-    getArticleById(id: string): Observable<any> {
+    getFormationsById(id: number): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/${id}`);
   }
-
 }

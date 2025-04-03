@@ -10,6 +10,6 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideClientHydration(withEventReplay()),
-    provideHttpClient(withFetch()) // ✅ Active fetch API pour éviter NG02801
+    provideHttpClient(withFetch())
   ]
 };

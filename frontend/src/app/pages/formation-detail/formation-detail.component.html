@@ -1,0 +1,13 @@
+<app-header></app-header>
+
+<main>
+    <div class="container" *ngIf="formation">
+        <h1>{{ formation.title }}</h1>
+        <img [src]="formation.image" [alt]="formation.title" class="card-img">
+        <p>{{ formation.content }}</p>
+        <p><strong>Prix :</strong> {{ formation.price }} €</p>
+        <a href="#" class="button">Acheter</a>
+    </div>
+</main>
+
+<app-footer></app-footer>

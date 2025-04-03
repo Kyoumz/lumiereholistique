@@ -1,0 +1,42 @@
+<app-header></app-header>
+
+<main>
+  <div class="container">
+    <div *ngIf="article">
+        <img [src]="article.image" [alt]="article.title" class="article-img">
+      <h1>{{ article.title }}</h1>
+      <p>{{ article.content }}</p>
+    </div>
+  </div>
+</main>
+
+<div class="comment-section">
+  <h2>Laisser un commentaire</h2>
+  <form (submit)="submitComment()">
+    <label for="message">Message :</label>
+    <textarea id="message" [(ngModel)]="comment.message" name="message" required></textarea>
+
+    <label for="name">Nom :</label>
+    <input type="text" id="name" [(ngModel)]="comment.name" name="name" required>
+
+    <label for="email">Adresse e-mail :</label>
+    <input type="email" id="email" [(ngModel)]="comment.email" name="email" required>
+
+    <label for="site">Site :</label>
+    <input type="url" id="site" [(ngModel)]="comment.website" name="site">
+
+    <button type="submit">Publier un commentaire</button>
+  </form>
+
+  <div *ngIf="comments.length > 0">
+    <h3>Commentaires :</h3>
+    <div *ngFor="let com of comments">
+      <p><strong>{{ com.name }}</strong> :</p>
+      <p>{{ com.message }}</p>
+      <hr>
+    </div>
+  </div>
+</div>
+
+
+<app-footer></app-footer>

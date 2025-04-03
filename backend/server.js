@@ -4,12 +4,17 @@ const express = require('express');
 const cors = require('cors');
 const sequelize = require('./db');
 const User = require('./models/Users');
-const Article = require('./models/Articles')
+const Article = require('./models/Articles');
 const Formation = require('./models/Formations');
 const Appointment = require('./models/Appointments');
-
 const app = express();
-app.use(cors());
+
+app.use(cors({
+  origin: '*',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept']
+}));
+
 app.use(express.json());
 
 // Routes utilisateurs
@@ -50,6 +55,22 @@ app.get('/api/articles', async (req, res) => {
   }
 });
 
+// Route to fetch an article by ID
+app.get('/api/articles/:id', async (req, res) => {
+  try {
+    const articleId = req.params.id;
+    const article = await Article.findByPk(articleId);
+
+    if (article) {
+      res.json(article);
+    } else {
+      res.status(404).json({ error: 'Article non trouvé' });
+    }
+  } catch (err) {
+    res.status(500).json({ error: 'Erreur lors de la récupération de l\'article' });
+  }
+});
+
 // Routes formations
 app.post('/api/formations', async (req, res) => {
   try {
@@ -66,6 +87,22 @@ app.get('/api/formations', async (req, res) => {
     res.json(formations);
   } catch (err) {
     res.status(500).json({ error: 'Erreur lors de la récupération des formations' });
+  }
+});
+
+// **New route to fetch a formation by ID**
+app.get('/api/formations/:id', async (req, res) => {
+  try {
+    const formationId = req.params.id;
+    const formation = await Formation.findByPk(formationId); // Use Sequelize method to find by primary key
+
+    if (formation) {
+      res.json(formation);
+    } else {
+      res.status(404).json({ error: 'Formation non trouvée' });
+    }
+  } catch (err) {
+    res.status(500).json({ error: 'Erreur lors de la récupération de la formation' });
   }
 });
 
@@ -90,5 +127,5 @@ app.get('/api/appointments', async (req, res) => {
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log('Serveur en cours d’exécution sur le port ${PORT}');
+  console.log(`Serveur en cours d’exécution sur le port ${PORT}`);
 });

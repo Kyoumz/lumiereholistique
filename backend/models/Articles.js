@@ -15,8 +15,18 @@ const Article = sequelize.define('Article', {
       type: DataTypes.TEXT,
       allowNull: false,
     },
+    description: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    image: {
+      type: DataTypes.STRING,
+      allowNull: true, 
+    },
   });
-  sequelize.sync()
+
+sequelize.sync()
   .then(() => console.log('Article table has been created or exists.'))
   .catch((err) => console.error('Unable to create table:', err));
-  module.exports = Article;
+
+module.exports = Article;
