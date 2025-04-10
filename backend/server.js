@@ -109,12 +109,16 @@ app.get('/api/formations/:id', async (req, res) => {
 // Routes rendez-vous
 app.post('/api/appointments', async (req, res) => {
   try {
+    console.log('Données reçues :', req.body);
     const appointment = await Appointment.create(req.body);
     res.json(appointment);
   } catch (err) {
+    console.error(err);
     res.status(500).json({ error: 'Erreur lors de la prise de rendez-vous' });
   }
 });
+
+
 
 app.get('/api/appointments', async (req, res) => {
   try {

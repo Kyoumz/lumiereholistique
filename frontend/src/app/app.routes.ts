@@ -10,6 +10,8 @@ import { FormationDetailComponent } from './pages/formation-detail/formation-det
 import { RdvFormComponent } from './formulaire/rdv-form/rdv-form.component';
 import { FormationFormComponent } from './formulaire/formation-form/formation-form.component';
 import { ArticleFormComponent } from './formulaire/article-form/article-form.component';
+import { LoginComponent } from './auth/login/login.component';
+import { SignInComponent } from './auth/sign-in/sign-in.component';
 
 export const routes: Routes = [
   { path: '', component: AccueilComponent }, 
@@ -25,5 +27,9 @@ export const routes: Routes = [
   { path: 'creeRdv', component: RdvFormComponent }, 
   { path: 'creeFormation', component: FormationFormComponent }, 
   { path: 'creeArticle', component: ArticleFormComponent }, 
+
+  //auth
+  { path: 'login', component: LoginComponent }, 
+  { path: 'signin', component: SignInComponent }, 
 
 ];

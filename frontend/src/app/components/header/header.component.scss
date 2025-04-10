@@ -280,3 +280,21 @@ nav input{
   font-size: 45px;
   font-weight: 600;
 }
+
+
+/* Style spécial pour le bouton "Connexion" */
+.nav-links li a.login-btn {
+  background-color: #ffffff;
+  color: #000000;
+  border-radius: 30px;
+  padding: 8px 20px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.nav-links li a.login-btn:hover {
+  background-color: transparent;
+  color: #ffffff;
+  border: 2px solid #ffffff;
+}

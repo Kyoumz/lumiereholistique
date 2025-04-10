@@ -1,1 +1,21 @@
-<p>article-form works!</p>
+<app-header></app-header>
+
+<div class="container">
+  <h2>Ajouter un Article</h2>
+  <form [formGroup]="articleForm" (ngSubmit)="submitForm()">
+    <label for="title">Titre:</label>
+    <input id="title" formControlName="title" required />
+
+    <label for="description">Description:</label>
+    <textarea id="description" formControlName="description"></textarea>
+
+    <label for="content">Contenu:</label>
+    <textarea id="content" formControlName="content" required></textarea>
+
+    <label for="image">Image URL:</label>
+    <input id="image" formControlName="image" />
+
+    <button type="submit">Ajouter</button>
+  </form>
+</div>
+

@@ -18,4 +18,8 @@ export class BlogService {
     return this.http.get<any>(`${this.apiUrl}/${id}`);
   }
 
+  addArticle(articles: any): Observable<any> {
+    return this.http.post<any>(this.apiUrl, articles);
+  }
+
 }

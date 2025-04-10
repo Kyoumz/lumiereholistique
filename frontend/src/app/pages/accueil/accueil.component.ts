@@ -10,4 +10,9 @@ import { FooterComponent } from '../../components/footer/footer.component';
   templateUrl: './accueil.component.html',
   styleUrls: ['./accueil.component.scss']
 })
-export class AccueilComponent { }
+export class AccueilComponent { 
+
+
+
+
+}

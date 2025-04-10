@@ -9,11 +9,12 @@
 /* Centrer les éléments principaux */
 main {
   position: relative;
-  overflow: hidden; /* Assure que les formes sont visibles */
+  overflow: hidden;
 }
 
 /* Ajout de formes dans le background */
-main::before, main::after {
+main::before,
+main::after {
   content: "";
   position: absolute;
   border-radius: 50%;
@@ -88,7 +89,7 @@ main::after {
   text-align: center;
   margin-bottom: 30px;
   color: white;
-  font-size: 28px; 
+  font-size: 28px;
   font-weight: bold;
 }
 
@@ -138,7 +139,7 @@ main::after {
   font-family: 'Roboto', sans-serif;
 }
 
-/* Style du logo (si vous souhaitez l'ajouter plus tard) */
+/* Style du logo */
 .logo {
   max-width: 300px;
   border-radius: 15px;
@@ -147,7 +148,8 @@ main::after {
 /* Section témoignages */
 .testimonial-container {
   display: flex;
-  justify-content: space-around;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 30px;
   margin-top: 40px;
 }
@@ -156,18 +158,20 @@ main::after {
 .testimonial-card {
   background-color: #f4f4f9;
   border-radius: 15px;
-  width: 250px;
+  flex: 1 1 calc(33.33% - 40px);
+  max-width: 300px;
   padding: 20px;
+  box-sizing: border-box;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   text-align: center;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Effet au survol des cartes témoignages */
 .testimonial-card:hover {
   transform: translateY(-10px);
 }
 
+/* Image témoignage (commentée pour l’instant) */
 .testimonial-img {
   width: 100%;
   height: auto;
@@ -175,14 +179,52 @@ main::after {
   margin-bottom: 15px;
 }
 
+/* Texte témoignage */
 .testimonial-text {
   font-size: 16px;
   margin-bottom: 10px;
   font-style: italic;
 }
 
-/* Style des étoiles */
+/* Étoiles */
 .stars {
   color: #fbc02d;
   font-size: 18px;
+}
+
+/* Boutons de création */
+.create-rdv-btn {
+  background-color: #66b4cc;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 12px;
+  margin: 20px 10px;
+  cursor: pointer;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease;
+}
+
+.create-rdv-btn a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  font-family: 'Roboto', sans-serif;
+}
+
+.create-rdv-btn:hover {
+  background-color: #559bb0;
+}
+
+/* Responsive : 2 cartes par ligne */
+@media (max-width: 900px) {
+  .testimonial-card {
+    flex: 1 1 calc(50% - 40px);
+  }
+}
+
+/* Responsive : 1 carte par ligne */
+@media (max-width: 600px) {
+  .testimonial-card {
+    flex: 1 1 100%;
+  }
 }

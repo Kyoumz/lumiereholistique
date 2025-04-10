@@ -1,1 +1,22 @@
-<p>formation-form works!</p>
+<div class="container">
+  <h2>Ajouter une Formation</h2>
+     <form> 
+  <!-- <form [formGroup]="formationForm" (ngSubmit)="submitForm()"> -->
+    <label for="title">Titre:</label>
+    <input id="title" formControlName="title" required />
+
+    <label for="description">Description:</label>
+    <textarea id="description" formControlName="description" required></textarea>
+
+    <label for="content">Contenu:</label>
+    <textarea id="content" formControlName="content" required></textarea>
+
+    <label for="image">Image URL:</label>
+    <input id="image" formControlName="image" />
+
+    <label for="price">Prix:</label>
+    <input id="price" type="number" formControlName="price" required />
+
+    <button type="submit">Ajouter</button>
+  </form>
+</div>

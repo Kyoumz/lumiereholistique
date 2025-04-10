@@ -21,10 +21,10 @@ export class RdvComponent {
     this.AppointmentsService.getAppointments().subscribe(
       (data: any[]) => {
         this.rdv = data;
-         console.log(data);
+        //  console.log(data);
       },
       (error: any) => {
-        console.error('Erreur lors du chargement des Formations', error);
+        console.error('Erreur lors du chargement des rdv', error);
       }
     );
   }

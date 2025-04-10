@@ -1,1 +1,25 @@
-<p>rdv-form works!</p>
+<app-header></app-header>
+
+<div class="container">
+  <h2>Crée un RDV</h2>
+  <form [formGroup]="appointmentForm" (ngSubmit)="submitForm()">
+    <label for="title">Titre:</label>
+    <input id="title" formControlName="title" required />
+
+    <label for="description">Description:</label>
+    <textarea id="description" formControlName="description"></textarea>
+
+    <label for="image">Image URL:</label>
+    <input id="image" formControlName="image" />
+
+    <label for="link">Lien:</label>
+    <input id="link" formControlName="link" />
+
+    <button type="submit" >Ajouter</button>
+    <button (click)="submitForm()">TEST Button</button>
+
+  </form>
+
+
+</div>
+
