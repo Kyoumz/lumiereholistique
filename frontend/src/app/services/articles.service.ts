@@ -6,7 +6,8 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ArticlesService {
-  private apiUrl = 'http://lumiereholistique_backend_1:5000/api/articles';
+  private apiUrl = 'http://localhost:5000/api/articles';
+
 
   constructor(private http: HttpClient) {}
 

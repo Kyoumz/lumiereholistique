@@ -102,3 +102,25 @@ main {
     left: 40%;
     transform: rotate(30deg);
 }
+
+.create-rdv-btn {
+    background-color: #66b4cc;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 12px;
+    margin: 20px 10px;
+    cursor: pointer;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+  }
+
+  .create-rdv-btn a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    font-family: 'Roboto', sans-serif;
+  }
+  
+  .create-rdv-btn:hover {
+    background-color: #559bb0;
+  }

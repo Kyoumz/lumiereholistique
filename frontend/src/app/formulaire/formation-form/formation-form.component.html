@@ -1,22 +1,61 @@
+<app-header></app-header>
+
 <div class="container">
   <h2>Ajouter une Formation</h2>
-     <form> 
-  <!-- <form [formGroup]="formationForm" (ngSubmit)="submitForm()"> -->
+
+  <form [formGroup]="formationForm" (ngSubmit)="submitForm()">
     <label for="title">Titre:</label>
-    <input id="title" formControlName="title" required />
+    <input
+      id="title"
+      formControlName="title"
+      required
+      placeholder="Titre de la formation"
+    />
+    <div *ngIf="formationForm.get('title')?.invalid && formationForm.get('title')?.touched" class="error">
+      Le titre est requis.
+    </div>
 
     <label for="description">Description:</label>
-    <textarea id="description" formControlName="description" required></textarea>
+    <textarea
+      id="description"
+      formControlName="description"
+      placeholder="Courte description"
+    ></textarea>
 
     <label for="content">Contenu:</label>
-    <textarea id="content" formControlName="content" required></textarea>
+    <textarea
+      id="content"
+      formControlName="content"
+      required
+      placeholder="Contenu de la formation"
+    ></textarea>
+    <div *ngIf="formationForm.get('content')?.invalid && formationForm.get('content')?.touched" class="error">
+      Le contenu est requis.
+    </div>
 
     <label for="image">Image URL:</label>
-    <input id="image" formControlName="image" />
+    <input
+      id="image"
+      formControlName="image"
+      type="url"
+      placeholder="https://exemple.com/image.jpg"
+    />
 
     <label for="price">Prix:</label>
-    <input id="price" type="number" formControlName="price" required />
+    <input
+      id="price"
+      formControlName="price"
+      type="number"
+      required
+      placeholder="0"
+    />
+    <div *ngIf="formationForm.get('price')?.invalid && formationForm.get('price')?.touched" class="error">
+      Le prix est requis.
+    </div>
 
-    <button type="submit">Ajouter</button>
+    <div *ngIf="successMessage" class="success">{{ successMessage }}</div>
+    <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+
+    <button type="submit" [disabled]="formationForm.invalid">Ajouter</button>
   </form>
 </div>

@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class FormationsService {
-  private apiUrl = 'http://lumiereholistique_backend_1:5000/api/formations';
+  private apiUrl = 'http://localhost:5000/api/formations';
 
   constructor(private http: HttpClient) {}
 
@@ -17,4 +17,9 @@ export class FormationsService {
     getFormationsById(id: number): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/${id}`);
   }
+
+  addFormation(formation: any): Observable<any> {
+    return this.http.post<any>(this.apiUrl, formation);
+  }
+  
 }

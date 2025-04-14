@@ -14,6 +14,8 @@ import { HeaderComponent } from '../../components/header/header.component';
 })
 export class ArticleFormComponent {
   articleForm: FormGroup;
+  successMessage = '';
+  errorMessage = '';
 
   constructor(private fb: FormBuilder, private blogService: BlogService) {
     this.articleForm = this.fb.group({
@@ -25,19 +27,22 @@ export class ArticleFormComponent {
   }
 
   submitForm() {
-    event?.preventDefault();
-    console.log('Formulaire soumis');
-
     if (this.articleForm.valid) {
       this.blogService.addArticle(this.articleForm.value).subscribe({
         next: (res) => {
-          console.log('Article ajouté:', res);
+          this.successMessage = 'Article ajouté avec succès !';
+          this.errorMessage = '';
           this.articleForm.reset();
         },
         error: (err) => {
-          console.error('Erreur lors de l’ajout de l’article:', err);
+          this.successMessage = '';
+          this.errorMessage = "Erreur lors de l’ajout de l’article.";
+          console.error(err);
         }
       });
+    } else {
+      this.successMessage = '';
+      this.errorMessage = 'Veuillez remplir tous les champs requis.';
     }
   }
 }

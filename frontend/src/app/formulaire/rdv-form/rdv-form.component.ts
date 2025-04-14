@@ -4,7 +4,7 @@ import { AppointmentsService } from '../../services/appointments.service';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { HeaderComponent } from '../../components/header/header.component';  
+import { HeaderComponent } from '../../components/header/header.component';
 
 @Component({
   selector: 'app-rdv-form',
@@ -15,6 +15,8 @@ import { HeaderComponent } from '../../components/header/header.component';
 })
 export class RdvFormComponent {
   appointmentForm: FormGroup;
+  successMessage = '';
+  errorMessage = '';
 
   constructor(
     private fb: FormBuilder,
@@ -22,15 +24,32 @@ export class RdvFormComponent {
     private router: Router
   ) {
     this.appointmentForm = this.fb.group({
-      title: ['test'],
-      description: ['aaa'],
-      image: ['aa'],
-      link: ['aa'],
+      title: ['', Validators.required],
+      description: [''],
+      image: [''],
+      link: ['']
     });
   }
 
   submitForm() {
-    console.log('submitForm() appelé'); 
+    if (this.appointmentForm.valid) {
+      const appointmentData = this.appointmentForm.value;
 
+      this.appointmentsService.addAppointment(appointmentData).subscribe({
+        next: (response) => {
+          this.successMessage = 'RDV ajouté avec succès !';
+          this.errorMessage = '';
+          this.appointmentForm.reset();
+        },
+        error: (error) => {
+          this.successMessage = '';
+          this.errorMessage = 'Erreur lors de l’ajout du RDV.';
+          console.error(error);
+        }
+      });
+    } else {
+      this.successMessage = '';
+      this.errorMessage = 'Veuillez remplir les champs requis.';
+    }
   }
 }

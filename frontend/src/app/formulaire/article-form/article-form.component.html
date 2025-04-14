@@ -2,20 +2,48 @@
 
 <div class="container">
   <h2>Ajouter un Article</h2>
+
   <form [formGroup]="articleForm" (ngSubmit)="submitForm()">
     <label for="title">Titre:</label>
-    <input id="title" formControlName="title" required />
+    <input
+      id="title"
+      formControlName="title"
+      required
+      placeholder="Titre de l'article"
+    />
+    <div *ngIf="articleForm.get('title')?.invalid && articleForm.get('title')?.touched" class="error">
+      Le titre est requis.
+    </div>
 
     <label for="description">Description:</label>
-    <textarea id="description" formControlName="description"></textarea>
+    <textarea
+      id="description"
+      formControlName="description"
+      placeholder="Courte description (facultative)"
+    ></textarea>
 
     <label for="content">Contenu:</label>
-    <textarea id="content" formControlName="content" required></textarea>
+    <textarea
+      id="content"
+      formControlName="content"
+      required
+      placeholder="Contenu de l'article"
+    ></textarea>
+    <div *ngIf="articleForm.get('content')?.invalid && articleForm.get('content')?.touched" class="error">
+      Le contenu est requis.
+    </div>
 
     <label for="image">Image URL:</label>
-    <input id="image" formControlName="image" />
+    <input
+      id="image"
+      formControlName="image"
+      type="url"
+      placeholder="https://exemple.com/image.jpg"
+    />
+
+    <div *ngIf="successMessage" class="success">{{ successMessage }}</div>
+    <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
 
     <button type="submit">Ajouter</button>
   </form>
 </div>
-

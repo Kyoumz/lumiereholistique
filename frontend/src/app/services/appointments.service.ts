@@ -7,8 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class AppointmentsService {
 
-  private apiUrl = 'http://lumiereholistique_backend_1:5000/api/appointments';
-  private apiUrl2 = 'http://localhost:5000/api/appointments';
+  private apiUrl = 'http://localhost:5000/api/appointments';
 
 
   constructor(private http: HttpClient) {}

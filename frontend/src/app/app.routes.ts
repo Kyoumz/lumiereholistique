@@ -12,8 +12,12 @@ import { FormationFormComponent } from './formulaire/formation-form/formation-fo
 import { ArticleFormComponent } from './formulaire/article-form/article-form.component';
 import { LoginComponent } from './auth/login/login.component';
 import { SignInComponent } from './auth/sign-in/sign-in.component';
+import { MycoursComponent } from './auth/mycours/mycours.component';
+import { AnnuaireComponent } from './pages/annuaire/annuaire.component';
+import { VideosPodcastsComponent } from './pages/videos-podcasts/videos-podcasts.component';
 
 export const routes: Routes = [
+  //page
   { path: '', component: AccueilComponent }, 
   { path: 'contact', component: ContactComponent },
   { path: 'rdv', component: RdvComponent },
@@ -22,7 +26,9 @@ export const routes: Routes = [
   { path: 'article', component: BlogComponent },
   { path: 'article/:id', component: ArticleDetailComponent }, 
   { path: 'formation/:id', component: FormationDetailComponent }, 
-  
+  { path: 'annuaire', component: AnnuaireComponent }, 
+  { path: 'VideosPodcasts', component: VideosPodcastsComponent }, 
+
   //admin
   { path: 'creeRdv', component: RdvFormComponent }, 
   { path: 'creeFormation', component: FormationFormComponent }, 
@@ -31,5 +37,6 @@ export const routes: Routes = [
   //auth
   { path: 'login', component: LoginComponent }, 
   { path: 'signin', component: SignInComponent }, 
+  { path: 'mycours', component: MycoursComponent }, 
 
 ];
