@@ -1,0 +1,62 @@
+.vp-main {
+    padding: 100px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
+  }
+  
+  .vp-title {
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 40px;
+    color: #333;
+  }
+  
+  .vp-section {
+    margin-bottom: 60px;
+  }
+  
+  .vp-subtitle {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #444;
+    border-bottom: 2px solid #66b4cc;
+    padding-bottom: 10px;
+  }
+  
+  .vp-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+  }
+  
+  .vp-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .vp-video {
+    width: 100%;
+    aspect-ratio: 16/9;
+    border-radius: 8px;
+  }
+  
+  .vp-audio {
+    width: 100%;
+  }
+  
+  .vp-info h3 {
+    font-size: 1.2rem;
+    color: #222;
+  }
+  
+  .vp-info p {
+    font-size: 0.95rem;
+    color: #666;
+  }
+  

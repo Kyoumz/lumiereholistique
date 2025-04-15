@@ -1,17 +1,45 @@
 <app-header></app-header>
 
-<h1>aaaaaaaaaaa</h1>
-<h1>aaaaaaaaaaa</h1>
-<h1>aaaaaaaaaaa</h1>
-<h1>aaaaaaaaaaa</h1>
-<h1>aaaaaaaaaaa</h1>
-<h1>aaaaaaaaaaa</h1>
-<h1>aaaaaaaaaaa</h1>
-<h1>aaaaaaaaaaa</h1>
-<h1>aaaaaaaaaaa</h1>
-<h1>aaaaaaaaaaa</h1>
-<h1>aaaaaaaaaaa</h1>
-<h1>aaaaaaaaaaa</h1>
-<button (click)="logMessage()">Clique moi</button>
+<main class="vp-main">
+  <h1 class="vp-title">Vidéos & Podcasts</h1>
+
+  <!-- 🎥 Section Vidéo -->
+  <section class="vp-section">
+    <h2 class="vp-subtitle">🎥 Vidéos</h2>
+    <div class="vp-grid">
+      <div class="vp-card">
+        <iframe
+          src="https://www.youtube.com/embed/Ruy-EFS2GNA"
+          frameborder="0"
+          allowfullscreen
+          class="vp-video"
+        ></iframe>
+        <div class="vp-info">
+          <h3>Exemple Vidéo</h3>
+          <p>Une vidéo d'exemple provenant de ta playlist YouTube.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 🎧 Section Podcast -->
+  <section class="vp-section">
+    <h2 class="vp-subtitle">🎧 Podcasts</h2>
+    <div class="vp-grid">
+      <div class="vp-card">
+        <iframe
+          src="https://www.youtube.com/embed/2JwvJyHkAeM"
+          frameborder="0"
+          allowfullscreen
+          class="vp-video"
+        ></iframe>
+        <div class="vp-info">
+          <h3>Exemple Podcast</h3>
+          <p>Un podcast YouTube intégré comme une vidéo, mais affiché en section "Podcast".</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
 
 <app-footer></app-footer>
