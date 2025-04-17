@@ -7,6 +7,8 @@ const User = require('./models/Users');
 const Article = require('./models/Articles');
 const Formation = require('./models/Formations');
 const Appointment = require('./models/Appointments');
+const VideosPodcast = require('./models/VideosPodcast');
+const Directory = require('./models/Directory');
 const app = express();
 
 app.use(cors({
@@ -128,6 +130,59 @@ app.get('/api/appointments', async (req, res) => {
     res.status(500).json({ error: 'Erreur lors de la récupération des rendez-vous' });
   }
 });
+
+
+// Routes VideosPodcast
+
+app.post('/api/videos-podcasts', async (req, res) => {
+  try {
+    const item = await VideosPodcast.create(req.body);
+    res.json(item);
+  } catch (err) {
+    res.status(500).json({ error: 'Erreur lors de la création du contenu vidéo/podcast' });
+  }
+});
+
+app.get('/api/videos-podcasts', async (req, res) => {
+  try {
+    const items = await VideosPodcast.findAll();
+    res.json(items);
+  } catch (err) {
+    res.status(500).json({ error: 'Erreur lors de la récupération des contenus vidéos/podcasts' });
+  }
+});
+
+app.get('/api/videos-podcasts/:id', async (req, res) => {
+  try {
+    const item = await VideosPodcast.findByPk(req.params.id);
+    if (item) {
+      res.json(item);
+    } else {
+      res.status(404).json({ error: 'Vidéo/Podcast non trouvé' });
+    }
+  } catch (err) {
+    res.status(500).json({ error: 'Erreur lors de la récupération du contenu' });
+  }
+});
+
+app.post('/api/directories', async (req, res) => {
+  try {
+    const directory = await Directory.create(req.body);
+    res.json(directory);
+  } catch (err) {
+    res.status(500).json({ error: 'Erreur lors de la création du directory' });
+  }
+});
+
+app.get('/api/directories', async (req, res) => {
+  try {
+    const directories = await Directory.findAll();
+    res.json(directories);
+  } catch (err) {
+    res.status(500).json({ error: 'Erreur lors de la récupération des directories' });
+  }
+});
+
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

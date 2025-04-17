@@ -3,43 +3,41 @@
 <main class="vp-main">
   <h1 class="vp-title">Vidéos & Podcasts</h1>
 
-  <!-- 🎥 Section Vidéo -->
   <section class="vp-section">
-    <h2 class="vp-subtitle">🎥 Vidéos</h2>
+    <h2 class="vp-subtitle">🎥 Vidéos & 🎧 Podcasts</h2>
     <div class="vp-grid">
-      <div class="vp-card">
+      <div *ngFor="let video of videos" class="vp-card">
         <iframe
-          src="https://www.youtube.com/embed/Ruy-EFS2GNA"
+          [src]="'https://www.youtube.com/embed/' + extractYouTubeId(video.video)"
           frameborder="0"
           allowfullscreen
           class="vp-video"
         ></iframe>
         <div class="vp-info">
-          <h3>Exemple Vidéo</h3>
-          <p>Une vidéo d'exemple provenant de ta playlist YouTube.</p>
+          <h3>{{ video.title }}</h3>
+          <p>{{ video.description }}</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 🎧 Section Podcast -->
-  <section class="vp-section">
+  <!-- <section class="vp-section">
     <h2 class="vp-subtitle">🎧 Podcasts</h2>
     <div class="vp-grid">
-      <div class="vp-card">
+      <div *ngFor="let podcast of podcasts" class="vp-card">
         <iframe
-          src="https://www.youtube.com/embed/2JwvJyHkAeM"
+          [src]="'https://www.youtube.com/embed/' + extractYouTubeId(podcast.podcast)"
           frameborder="0"
           allowfullscreen
           class="vp-video"
         ></iframe>
         <div class="vp-info">
-          <h3>Exemple Podcast</h3>
-          <p>Un podcast YouTube intégré comme une vidéo, mais affiché en section "Podcast".</p>
+          <h3>{{ podcast.title }}</h3>
+          <p>{{ podcast.description }}</p>
         </div>
       </div>
     </div>
-  </section>
+  </section> -->
 </main>
 
 <app-footer></app-footer>

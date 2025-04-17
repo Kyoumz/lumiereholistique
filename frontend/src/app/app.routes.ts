@@ -15,6 +15,9 @@ import { SignInComponent } from './auth/sign-in/sign-in.component';
 import { MycoursComponent } from './auth/mycours/mycours.component';
 import { AnnuaireComponent } from './pages/annuaire/annuaire.component';
 import { VideosPodcastsComponent } from './pages/videos-podcasts/videos-podcasts.component';
+import { VideoPodcastFormComponent } from './formulaire/video-podcast-form/video-podcast-form.component';
+import { AnnuaireFormComponent } from './formulaire/annuaire-form/annuaire-form.component';
+
 
 export const routes: Routes = [
   //page
@@ -33,6 +36,8 @@ export const routes: Routes = [
   { path: 'creeRdv', component: RdvFormComponent }, 
   { path: 'creeFormation', component: FormationFormComponent }, 
   { path: 'creeArticle', component: ArticleFormComponent }, 
+  { path: 'creeAnnuaire', component: AnnuaireFormComponent }, 
+  { path: 'creeVideoPodcast', component: VideoPodcastFormComponent }, 
 
   //auth
   { path: 'login', component: LoginComponent }, 

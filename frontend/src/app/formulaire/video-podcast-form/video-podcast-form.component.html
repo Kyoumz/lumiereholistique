@@ -1,1 +1,28 @@
-<p>video-podcast-form works!</p>
+<app-header></app-header>
+
+<div class="container">
+  <h2>Créer une Vidéo/Podcast</h2>
+
+  <form [formGroup]="videoPodcastForm" (ngSubmit)="submitForm()">
+    <label for="title">Titre :</label>
+    <input id="title" formControlName="title" required placeholder="Titre de la vidéo/podcast" />
+    <div *ngIf="videoPodcastForm.get('title')?.invalid && videoPodcastForm.get('title')?.touched" class="error">
+      Le titre est requis.
+    </div>
+
+    <label for="description">Description :</label>
+    <textarea id="description" formControlName="description" placeholder="Description de la vidéo/podcast"></textarea>
+
+    <label for="video">Lien vidéo (YouTube) :</label>
+    <input id="video" formControlName="video" placeholder="https://www.youtube.com/watch?v=xxx" />
+
+    <label for="podcast">Lien podcast :</label>
+    <input id="podcast" formControlName="podcast" placeholder="Lien vers le podcast" />
+
+    <div *ngIf="successMessage" class="success">{{ successMessage }}</div>
+    <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+
+    <button type="submit">Ajouter</button>
+  </form>
+</div>
+

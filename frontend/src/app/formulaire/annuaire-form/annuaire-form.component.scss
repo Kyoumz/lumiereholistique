@@ -1,0 +1,108 @@
+/* Style global */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f7f7f7;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .container {
+    width: 80%;
+    max-width: 600px;
+    margin: 50px auto;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Titre de la page */
+  h2 {
+    text-align: center;
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  /* Style du formulaire */
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #555;
+  }
+  
+  input,
+  textarea {
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    width: 100%;
+  }
+  
+  input[type="text"],
+  input[type="url"] {
+    height: 35px;
+  }
+  
+  textarea {
+    height: 100px;
+  }
+  
+  input:focus,
+  textarea:focus {
+    outline: none;
+    border-color: #4caf50;
+  }
+  
+  button {
+    padding: 12px 20px;
+    background-color: #4caf50;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    align-self: center;
+  }
+  
+  button:hover {
+    background-color: #45a049;
+  }
+  
+  /* Style pour les messages */
+  .success {
+    color: #4caf50;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  
+  .error {
+    color: #f44336;
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+  
+  /* Form validation */
+  input.ng-invalid.ng-touched,
+  textarea.ng-invalid.ng-touched {
+    border-color: #f44336;
+  }
+  
+  input.ng-valid.ng-touched,
+  textarea.ng-valid.ng-touched {
+    border-color: #4caf50;
+  }
+  
+  button:disabled {
+    background-color: #ddd;
+    cursor: not-allowed;
+  }
+  
