@@ -9,6 +9,13 @@ const Formation = require('./models/Formations');
 const Appointment = require('./models/Appointments');
 const VideosPodcast = require('./models/VideosPodcast');
 const Directory = require('./models/Directory');
+const authenticateToken = require('./middlewares/auth');
+
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const SECRET = process.env.JWT_SECRET || 'secret'; 
+
+
 const app = express();
 
 app.use(cors({
@@ -18,6 +25,56 @@ app.use(cors({
 }));
 
 app.use(express.json());
+
+
+// Inscription
+app.post('/api/register', async (req, res) => {
+  const { name, email, password, role } = req.body;
+
+  try {
+    const existingUser = await User.findOne({ where: { email } });
+    if (existingUser) {
+      return res.status(400).json({ error: 'Email déjà utilisé' });
+    }
+
+    const newUser = await User.create({ name, email, password, role });
+    res.status(201).json({ message: 'Utilisateur créé avec succès', user: newUser });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Erreur lors de l’inscription' });
+  }
+});
+
+// Connexion
+app.post('/api/login', async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    // Recherche de l'utilisateur
+    const user = await User.findOne({ where: { email } });
+    if (!user) {
+      return res.status(401).json({ error: 'Email ou mot de passe invalide' });
+    }
+
+    // Vérifie le mot de passe
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(401).json({ error: 'Email ou mot de passe invalide' });
+    }
+
+    // Génère un token
+    const token = jwt.sign(
+      { id: user.id, email: user.email, role: user.role },
+      SECRET,
+      { expiresIn: '1d' }
+    );
+
+    res.json({ message: 'Connexion réussie', token, user });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Erreur lors de la connexion' });
+  }
+});
 
 // Routes utilisateurs
 app.post('/api/users', async (req, res) => {
@@ -182,7 +239,6 @@ app.get('/api/directories', async (req, res) => {
     res.status(500).json({ error: 'Erreur lors de la récupération des directories' });
   }
 });
-
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

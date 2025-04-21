@@ -1,6 +1,6 @@
-// models/User.js
 const { DataTypes } = require('sequelize');
-const sequelize = require('../db');  
+const sequelize = require('../db');
+const bcrypt = require('bcryptjs');
 
 const User = sequelize.define('User', {
   id: {
@@ -25,6 +25,20 @@ const User = sequelize.define('User', {
     type: DataTypes.STRING,
     allowNull: false,
   },
+}, {
+hooks: {
+  beforeCreate: async (user) => {
+    try {
+      console.log('Hashing password...');
+      user.password = await bcrypt.hash(user.password, 10);
+      console.log('Password hashed.');
+    } catch (error) {
+      console.error('Error while hashing password:', error);
+      throw error;
+    }
+  }
+
+  }
 });
 
 sequelize.sync()
