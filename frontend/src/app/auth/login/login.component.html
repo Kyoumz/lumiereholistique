@@ -1,5 +1,6 @@
 <app-header></app-header>
 
+
 <button class="create-rdv-btn" ><a href="/creeRdv">Crée RDV</a></button>
 <button class="create-rdv-btn" ><a href="/creeArticle">Crée Article</a></button>
 <button class="create-rdv-btn" ><a href="/creeFormation">Crée Formation</a></button>
@@ -8,16 +9,16 @@
 
 
 <div class="auth-container">
-    <div class="form-box">
-      <h2>Connexion</h2>
-      <form>
-        <input type="email" placeholder="Email" required />
-        <input type="password" placeholder="Mot de passe" required />
-        <button type="submit">Se connecter</button>
-      </form>
-      <p>Pas encore inscrit ? <a href="signin">Créer un compte</a></p>
-    </div>
+  <div class="form-box">
+    <h2>Connexion</h2>
+    <form (ngSubmit)="onSubmit()">
+      <input type="email" placeholder="Email" [(ngModel)]="email" name="email" required />
+      <input type="password" placeholder="Mot de passe" [(ngModel)]="password" name="password" required />
+      <button type="submit">Se connecter</button>
+    </form>
+    <p>Pas encore inscrit ? <a href="/signin">Créer un compte</a></p>
   </div>
-  <app-footer></app-footer>
+</div>
+
 
   
