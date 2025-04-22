@@ -2,9 +2,8 @@ import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { HeaderComponent } from '../../components/header/header.component';
 import { FooterComponent } from '../../components/footer/footer.component';
-import { BlogService } from '../../services/blog.service';
 import { CommonModule } from '@angular/common'; 
-
+import { PagesService } from '../../services/pages.service';
 @Component({
   selector: 'app-blog',
   standalone: true,
@@ -15,10 +14,10 @@ import { CommonModule } from '@angular/common';
 export class BlogComponent {
   articles: any[] = [];
 
-  constructor(private blogService: BlogService) {}
+  constructor(private PagesService: PagesService) {}
 
   ngOnInit() {
-    this.blogService.getArticles().subscribe(
+    this.PagesService.getArticles().subscribe(
       (data: any[]) => {
         this.articles = data;
         // console.log('Articles récupérés :', data);

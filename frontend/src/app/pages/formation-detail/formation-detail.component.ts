@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { FormationsService } from '../../services/formations.service';
 import { HeaderComponent } from '../../components/header/header.component';
 import { FooterComponent } from '../../components/footer/footer.component';
 import { CommonModule } from '@angular/common'; 
+import { PagesService } from '../../services/pages.service';
 
 @Component({
   selector: 'app-formation-detail',
@@ -14,12 +14,12 @@ import { CommonModule } from '@angular/common';
 export class FormationDetailComponent implements OnInit {
   formation: any;
 
-  constructor(private route: ActivatedRoute, private formationService: FormationsService) {}
+  constructor(private route: ActivatedRoute, private PagesService: PagesService) {}
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
-      this.formationService.getFormationsById(+id).subscribe(
+      this.PagesService.getFormationsById(+id).subscribe(
         (data) => {
           this.formation = data;
         },

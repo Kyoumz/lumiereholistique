@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { HeaderComponent } from '../../components/header/header.component';  
 import { FooterComponent } from '../../components/footer/footer.component'; 
-import { AppointmentsService } from '../../services/appointments.service';
 import { CommonModule } from '@angular/common'; 
+import { PagesService } from '../../services/pages.service';
 
 @Component({
   selector: 'app-rdv',
@@ -15,10 +15,10 @@ import { CommonModule } from '@angular/common';
 export class RdvComponent {
   rdv: any[] = [];
 
-  constructor(private AppointmentsService: AppointmentsService) {}
+  constructor(private PagesService: PagesService) {}
 
   ngOnInit() {
-    this.AppointmentsService.getAppointments().subscribe(
+    this.PagesService.getAppointments().subscribe(
       (data: any[]) => {
         this.rdv = data;
         //  console.log(data);

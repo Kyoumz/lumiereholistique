@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { DirectoryService } from '../../services/directory.service';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { HeaderComponent } from '../../components/header/header.component';
+import { PagesService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-annuaire-form',
@@ -17,7 +17,7 @@ export class AnnuaireFormComponent {
   successMessage = '';
   errorMessage = '';
 
-  constructor(private fb: FormBuilder, private directoryService: DirectoryService) {
+  constructor(private fb: FormBuilder, private PagesService: PagesService) {
     this.directoryForm = this.fb.group({
       name: ['', Validators.required],
       description: ['', Validators.required],
@@ -27,7 +27,7 @@ export class AnnuaireFormComponent {
 
   submitForm() {
     if (this.directoryForm.valid) {
-      this.directoryService.addDirectories(this.directoryForm.value).subscribe({
+      this.PagesService.addDirectories(this.directoryForm.value).subscribe({
         next: (res) => {
           this.successMessage = 'Entrée ajoutée avec succès !';
           this.errorMessage = '';

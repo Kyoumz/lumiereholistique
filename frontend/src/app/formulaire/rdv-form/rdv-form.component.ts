@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { AppointmentsService } from '../../services/appointments.service';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { HeaderComponent } from '../../components/header/header.component';
+import { PagesService } from '../../services/pages.service';
 
 @Component({
   selector: 'app-rdv-form',
@@ -20,7 +20,7 @@ export class RdvFormComponent {
 
   constructor(
     private fb: FormBuilder,
-    private appointmentsService: AppointmentsService,
+    private PagesService: PagesService,
     private router: Router
   ) {
     this.appointmentForm = this.fb.group({
@@ -35,7 +35,7 @@ export class RdvFormComponent {
     if (this.appointmentForm.valid) {
       const appointmentData = this.appointmentForm.value;
 
-      this.appointmentsService.addAppointment(appointmentData).subscribe({
+      this.PagesService.addAppointment(appointmentData).subscribe({
         next: (response) => {
           this.successMessage = 'RDV ajouté avec succès !';
           this.errorMessage = '';

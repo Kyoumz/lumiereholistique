@@ -3,8 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { HeaderComponent } from '../../components/header/header.component';
 import { FooterComponent } from '../../components/footer/footer.component';
-import { DirectoryService } from '../../services/directory.service';
-
+import { PagesService } from '../../services/pages.service';
 @Component({
   selector: 'app-annuaire',
   standalone: true,
@@ -20,10 +19,10 @@ import { DirectoryService } from '../../services/directory.service';
 export class AnnuaireComponent implements OnInit {
   directories: any[] = [];
 
-  constructor(private directoryService: DirectoryService) {}
+  constructor(private PagesService: PagesService) {}
 
   ngOnInit(): void {
-    this.directoryService.getDirectories().subscribe({
+    this.PagesService.getDirectories().subscribe({
       next: (data) => this.directories = data,
       error: (err) => console.error('Erreur API :', err)
     });

@@ -3,9 +3,8 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { HeaderComponent } from '../../components/header/header.component';
 import { FooterComponent } from '../../components/footer/footer.component';
-import { VideosPodcastService } from '../../services/videos-podcast.service'; // adapte le chemin
 import { HttpClientModule } from '@angular/common/http';
-
+import { PagesService } from '../../services/pages.service';
 @Component({
   selector: 'app-videos-podcasts',
   standalone: true,
@@ -17,10 +16,10 @@ export class VideosPodcastsComponent implements OnInit {
   videos: any[] = [];
   podcasts: any[] = [];
 
-  constructor(private vpService: VideosPodcastService) {}
+  constructor(private PagesService: PagesService) {}
 
   ngOnInit(): void {
-    this.vpService.getVideosPodcasts().subscribe(data => {
+    this.PagesService.getVideosPodcasts().subscribe(data => {
       this.videos = data.filter(item => item.video);
       this.podcasts = data.filter(item => item.podcast);
     });

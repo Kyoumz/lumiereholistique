@@ -2,9 +2,8 @@ import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { HeaderComponent } from '../../components/header/header.component';  
 import { FooterComponent } from '../../components/footer/footer.component'; 
-import { FormationsService } from '../../services/formations.service';
 import { CommonModule } from '@angular/common'; 
-
+import { PagesService } from '../../services/pages.service';
 
 @Component({
   selector: 'app-formation',
@@ -16,10 +15,10 @@ import { CommonModule } from '@angular/common';
 export class FormationComponent {
   formations: any[] = [];
 
-  constructor(private FormationsService: FormationsService) {}
+  constructor(private PagesService: PagesService) {}
 
   ngOnInit() {
-    this.FormationsService.getformations().subscribe(
+    this.PagesService.getformations().subscribe(
       (data: any[]) => {
         this.formations = data;
          console.log(data);

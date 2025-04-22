@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { HeaderComponent } from '../../components/header/header.component';
-
+import { PagesService } from '../../services/pages.service';
 @Component({
   selector: 'app-video-podcast-form',
   standalone: true,
@@ -20,7 +20,7 @@ export class VideoPodcastFormComponent {
 
   constructor(
     private fb: FormBuilder,
-    private vpService: VideosPodcastService,
+    private vpService: PagesService,
     private router: Router
   ) {
     this.videoPodcastForm = this.fb.group({

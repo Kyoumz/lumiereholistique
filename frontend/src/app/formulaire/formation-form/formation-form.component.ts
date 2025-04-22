@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { HeaderComponent } from '../../components/header/header.component';
-import { FormationsService } from '../../services/formations.service';
+import { PagesService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-formation-form',
@@ -19,7 +19,7 @@ export class FormationFormComponent {
 
   constructor(
     private fb: FormBuilder,
-    private formationsService: FormationsService
+    private PagesService: PagesService
   ) {
     this.formationForm = this.fb.group({
       title: ['', Validators.required],
@@ -32,7 +32,7 @@ export class FormationFormComponent {
 
   submitForm() {
     if (this.formationForm.valid) {
-      this.formationsService.addFormation(this.formationForm.value).subscribe({
+      this.PagesService.addFormation(this.formationForm.value).subscribe({
         next: (res) => {
           this.successMessage = 'Formation ajoutée avec succès !';
           this.errorMessage = '';

@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { BlogService } from '../../services/blog.service';
 import { HeaderComponent } from '../../components/header/header.component';
 import { FooterComponent } from '../../components/footer/footer.component';
 import { CommonModule } from '@angular/common'; 
 import { FormsModule } from '@angular/forms'; 
+import { PagesService } from '../../services/pages.service';
 
 @Component({
   selector: 'app-article-detail',
@@ -20,13 +20,13 @@ export class ArticleDetailComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private blogService: BlogService
+    private PagesService: PagesService
   ) {}
 
   ngOnInit(): void {
     const articleId = this.route.snapshot.paramMap.get('id');
     if (articleId) {
-      this.blogService.getArticleById(articleId).subscribe(
+      this.PagesService.getArticleById(articleId).subscribe(
         (data) => {
           this.article = data;
         },

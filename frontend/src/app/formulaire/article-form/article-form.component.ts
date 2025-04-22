@@ -4,7 +4,7 @@ import { BlogService } from '../../services/blog.service';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { HeaderComponent } from '../../components/header/header.component';
-
+import { PagesService } from '../../services/auth.service';
 @Component({
   selector: 'app-article-form',
   standalone: true,
@@ -17,7 +17,7 @@ export class ArticleFormComponent {
   successMessage = '';
   errorMessage = '';
 
-  constructor(private fb: FormBuilder, private blogService: BlogService) {
+  constructor(private fb: FormBuilder, private PagesService: PagesService) {
     this.articleForm = this.fb.group({
       title: ['', Validators.required],
       description: [''],
@@ -28,7 +28,7 @@ export class ArticleFormComponent {
 
   submitForm() {
     if (this.articleForm.valid) {
-      this.blogService.addArticle(this.articleForm.value).subscribe({
+      this.PagesService.addArticle(this.articleForm.value).subscribe({
         next: (res) => {
           this.successMessage = 'Article ajouté avec succès !';
           this.errorMessage = '';
