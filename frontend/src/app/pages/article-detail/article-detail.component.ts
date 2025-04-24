@@ -5,7 +5,7 @@ import { FooterComponent } from '../../components/footer/footer.component';
 import { CommonModule } from '@angular/common'; 
 import { FormsModule } from '@angular/forms'; 
 import { PagesService } from '../../services/pages.service';
-
+import { environment } from '../../environement';
 @Component({
   selector: 'app-article-detail',
   standalone: true,
@@ -15,9 +15,10 @@ import { PagesService } from '../../services/pages.service';
 })
 export class ArticleDetailComponent implements OnInit {
   article: any;
+  environment = environment;
   comment = { name: '', email: '', website: '', message: '' };
   comments: any[] = [];
-
+  
   constructor(
     private route: ActivatedRoute,
     private PagesService: PagesService

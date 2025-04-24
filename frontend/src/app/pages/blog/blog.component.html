@@ -5,7 +5,8 @@
         <h1 class="main-title">Articles et conseils pratiques</h1>
         
         <div *ngFor="let article of articles" class="card">
-            <img [src]="article.image" [alt]="article.title" class="card-img">
+            <img [src]="environment.apiUrl + '/' + article.image" [alt]="article.title" class="card-img">
+
             <h2>{{ article.title }}</h2>
             <p>{{ article.description }}</p>
             <a [routerLink]="['/article', article.id]" class="button">Lire l'article</a>

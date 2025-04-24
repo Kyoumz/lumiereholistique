@@ -1,6 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../db');
 const bcrypt = require('bcryptjs');
+const Formation = require('./Formations');
 
 const User = sequelize.define('User', {
   id: {
@@ -26,23 +27,20 @@ const User = sequelize.define('User', {
     allowNull: false,
   },
 }, {
-hooks: {
-  beforeCreate: async (user) => {
-    try {
-      console.log('Hashing password...');
-      user.password = await bcrypt.hash(user.password, 10);
-      console.log('Password hashed.');
-    } catch (error) {
-      console.error('Error while hashing password:', error);
-      throw error;
+  hooks: {
+    beforeCreate: async (user) => {
+      try {
+        user.password = await bcrypt.hash(user.password, 10);
+      } catch (error) {
+        console.error('Erreur lors du hash du mot de passe :', error);
+        throw error;
+      }
     }
-  }
-
   }
 });
 
 sequelize.sync()
-  .then(() => console.log('User table has been created or exists.'))
-  .catch((err) => console.error('Unable to create table:', err));
+.then(() => console.log('users table has been created or exists.'))
+.catch((err) => console.error('Unable to create table:', err));
 
 module.exports = User;

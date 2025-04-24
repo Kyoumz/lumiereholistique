@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { HeaderComponent } from '../../components/header/header.component';
-import { PagesService } from '../../services/auth.service';
+import { PagesService } from '../../services/pages.service';
 
 @Component({
   selector: 'app-annuaire-form',

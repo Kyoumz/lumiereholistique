@@ -4,7 +4,7 @@ import { HeaderComponent } from '../../components/header/header.component';
 import { FooterComponent } from '../../components/footer/footer.component'; 
 import { CommonModule } from '@angular/common'; 
 import { PagesService } from '../../services/pages.service';
-
+import { environment } from '../../environement';
 @Component({
   selector: 'app-formation',
   standalone: true,
@@ -14,11 +14,12 @@ import { PagesService } from '../../services/pages.service';
 })
 export class FormationComponent {
   formations: any[] = [];
+  environment = environment;
 
   constructor(private PagesService: PagesService) {}
 
   ngOnInit() {
-    this.PagesService.getformations().subscribe(
+    this.PagesService.getFormations().subscribe(
       (data: any[]) => {
         this.formations = data;
          console.log(data);

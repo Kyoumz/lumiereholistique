@@ -1,37 +1,37 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../db');  
+const sequelize = require('../db');
+const User = require('./Users');
 
 const Formation = sequelize.define('Formation', {
-    id: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
-    },
-    title: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    image: {
-      type: DataTypes.STRING,
-      allowNull: true, 
-    },
-    description: {
-      type: DataTypes.TEXT,
-      allowNull: false,
-    },
-    content: {
-      type: DataTypes.TEXT,
-      allowNull: false,
-    },
-    price: {
-      type: DataTypes.FLOAT,
-      allowNull: false,
-    },
-  });
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+  },
+  title: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  image: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  description: {
+    type: DataTypes.TEXT,
+    allowNull: false,
+  },
+  content: {
+    type: DataTypes.TEXT,
+    allowNull: false,
+  },
+  price: {
+    type: DataTypes.FLOAT,
+    allowNull: false,
+  },
+});
 
-  sequelize.sync()
-  .then(() => console.log('Formation table has been created or exists.'))
-  .catch((err) => console.error('Unable to create table:', err));
-  
-  module.exports = Formation;
-  
+sequelize.sync()
+.then(() => console.log('Formation table has been created or exists.'))
+.catch((err) => console.error('Unable to create table:', err));
+
+module.exports = Formation;

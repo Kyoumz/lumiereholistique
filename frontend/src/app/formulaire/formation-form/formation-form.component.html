@@ -33,13 +33,15 @@
       Le contenu est requis.
     </div>
 
-    <label for="image">Image URL:</label>
+    <label for="image">Image:</label>
     <input
+      type="file"
       id="image"
-      formControlName="image"
-      type="url"
-      placeholder="https://exemple.com/image.jpg"
+      (change)="onImageSelected($event)"
     />
+    <div *ngIf="imagePreview" class="image-preview">
+      <img [src]="imagePreview" alt="Aperçu de l'image" />
+    </div>
 
     <label for="price">Prix:</label>
     <input

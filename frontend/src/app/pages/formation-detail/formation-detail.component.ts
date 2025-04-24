@@ -4,6 +4,7 @@ import { HeaderComponent } from '../../components/header/header.component';
 import { FooterComponent } from '../../components/footer/footer.component';
 import { CommonModule } from '@angular/common'; 
 import { PagesService } from '../../services/pages.service';
+import { environment } from '../../environement';
 
 @Component({
   selector: 'app-formation-detail',
@@ -13,6 +14,7 @@ import { PagesService } from '../../services/pages.service';
 })
 export class FormationDetailComponent implements OnInit {
   formation: any;
+  environment = environment;
 
   constructor(private route: ActivatedRoute, private PagesService: PagesService) {}
 

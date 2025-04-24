@@ -3,19 +3,21 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { HeaderComponent } from '../../components/header/header.component';
-import { PagesService } from '../../services/auth.service';
+import { PagesService } from '../../services/pages.service';
 
 @Component({
   selector: 'app-formation-form',
   standalone: true,
   imports: [ReactiveFormsModule, RouterModule, CommonModule, HeaderComponent],
   templateUrl: './formation-form.component.html',
-  styleUrl: './formation-form.component.scss'
+  styleUrls: ['./formation-form.component.scss']
 })
 export class FormationFormComponent {
   formationForm: FormGroup;
   successMessage = '';
   errorMessage = '';
+  selectedImage: File | null = null;
+  imagePreview: string | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -30,18 +32,44 @@ export class FormationFormComponent {
     });
   }
 
+  // Méthode pour gérer l'upload de l'image
+  onImageSelected(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      this.selectedImage = file;
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.imagePreview = reader.result as string;
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  // Méthode de soumission du formulaire
   submitForm() {
     if (this.formationForm.valid) {
-      this.PagesService.addFormation(this.formationForm.value).subscribe({
+      const formData = new FormData();
+      formData.append('title', this.formationForm.get('title')?.value);
+      formData.append('description', this.formationForm.get('description')?.value);
+      formData.append('content', this.formationForm.get('content')?.value);
+      formData.append('price', this.formationForm.get('price')?.value.toString());
+
+      if (this.selectedImage) {
+        formData.append('image', this.selectedImage); // Ajoute l'image
+      }
+
+      this.PagesService.addFormation(formData).subscribe({
         next: (res) => {
           this.successMessage = 'Formation ajoutée avec succès !';
           this.errorMessage = '';
           this.formationForm.reset();
+          this.imagePreview = null;
+          this.selectedImage = null;
         },
         error: (err) => {
           this.successMessage = '';
           this.errorMessage = 'Erreur lors de l’ajout de la formation.';
-          console.error(err);
+          console.error(err); // Affiche l'erreur
         }
       });
     } else {

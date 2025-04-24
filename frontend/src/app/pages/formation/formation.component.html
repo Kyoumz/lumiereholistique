@@ -7,7 +7,7 @@
             <h1 class="main-title">Espace formations</h1>
 
             <div *ngFor="let formation of formations" class="card">
-                <img [src]="formation.image" [alt]="formation.title" class="card-img">
+                <img [src]="environment.apiUrl + '/' + formation.image" [alt]="formation.title" class="card-img">
                 <h2>{{ formation.title }}</h2>
                 <p>{{ formation.description }}</p>
                 <a [routerLink]="'/formation/' + formation.id" class="button">Acheter</a>

@@ -4,6 +4,8 @@ import { HeaderComponent } from '../../components/header/header.component';
 import { FooterComponent } from '../../components/footer/footer.component';
 import { CommonModule } from '@angular/common'; 
 import { PagesService } from '../../services/pages.service';
+import { environment } from '../../environement';
+
 @Component({
   selector: 'app-blog',
   standalone: true,
@@ -13,6 +15,8 @@ import { PagesService } from '../../services/pages.service';
 })
 export class BlogComponent {
   articles: any[] = [];
+  environment = environment;
+
 
   constructor(private PagesService: PagesService) {}
 
