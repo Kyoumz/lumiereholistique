@@ -17,6 +17,8 @@ export class RdvFormComponent {
   appointmentForm: FormGroup;
   successMessage = '';
   errorMessage = '';
+  selectedImage: File | null = null;
+  imagePreview: string | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -26,20 +28,39 @@ export class RdvFormComponent {
     this.appointmentForm = this.fb.group({
       title: ['', Validators.required],
       description: [''],
-      image: [''],
       link: ['']
     });
   }
 
+  onImageSelected(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      this.selectedImage = file;
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.imagePreview = reader.result as string;
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
   submitForm() {
     if (this.appointmentForm.valid) {
-      const appointmentData = this.appointmentForm.value;
+      const formData = new FormData();
+      formData.append('title', this.appointmentForm.get('title')?.value);
+      formData.append('description', this.appointmentForm.get('description')?.value);
+      formData.append('link', this.appointmentForm.get('link')?.value);
+      if (this.selectedImage) {
+        formData.append('image', this.selectedImage);
+      }
 
-      this.PagesService.addAppointment(appointmentData).subscribe({
-        next: (response) => {
+      this.PagesService.addAppointment(formData).subscribe({
+        next: () => {
           this.successMessage = 'RDV ajouté avec succès !';
           this.errorMessage = '';
           this.appointmentForm.reset();
+          this.selectedImage = null;
+          this.imagePreview = null;
         },
         error: (error) => {
           this.successMessage = '';

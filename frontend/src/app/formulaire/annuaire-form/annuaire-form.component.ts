@@ -12,26 +12,51 @@ import { PagesService } from '../../services/pages.service';
   templateUrl: './annuaire-form.component.html',
   styleUrl: './annuaire-form.component.scss'
 })
+
 export class AnnuaireFormComponent {
   directoryForm: FormGroup;
   successMessage = '';
   errorMessage = '';
+  selectedImage: File | null = null;
+  imagePreview: string | null = null;
 
   constructor(private fb: FormBuilder, private PagesService: PagesService) {
     this.directoryForm = this.fb.group({
       name: ['', Validators.required],
       description: ['', Validators.required],
-      image: ['']
+      image: [''] // on garde juste pour compatibilité
     });
+  }
+
+  onImageSelected(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      this.selectedImage = file;
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.imagePreview = reader.result as string;
+      };
+      reader.readAsDataURL(file);
+    }
   }
 
   submitForm() {
     if (this.directoryForm.valid) {
-      this.PagesService.addDirectories(this.directoryForm.value).subscribe({
+      const formData = new FormData();
+      formData.append('name', this.directoryForm.get('name')?.value);
+      formData.append('description', this.directoryForm.get('description')?.value);
+
+      if (this.selectedImage) {
+        formData.append('image', this.selectedImage);
+      }
+
+      this.PagesService.addDirectories(formData).subscribe({
         next: (res) => {
           this.successMessage = 'Entrée ajoutée avec succès !';
           this.errorMessage = '';
           this.directoryForm.reset();
+          this.selectedImage = null;
+          this.imagePreview = null;
         },
         error: (err) => {
           this.successMessage = '';

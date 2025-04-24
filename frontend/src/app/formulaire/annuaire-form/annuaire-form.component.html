@@ -16,8 +16,13 @@
       La description est requise.
     </div>
 
-    <label for="image">Nom du fichier image :</label>
-    <input id="image" formControlName="image" placeholder="ex: jean.jpg" />
+    <label for="image">Image :</label>
+    <input type="file" id="image" (change)="onImageSelected($event)" />
+    
+    <div *ngIf="imagePreview" class="image-preview">
+      <img [src]="imagePreview" alt="Aperçu de l'image" />
+    </div>
+    
 
     <div *ngIf="successMessage" class="success">{{ successMessage }}</div>
     <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>

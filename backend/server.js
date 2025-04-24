@@ -20,6 +20,7 @@ setupAssociations();
 const app = express();
 const fs = require('fs');
 
+
 const uploadDir = path.join(__dirname, 'uploads');
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir);
@@ -214,10 +215,18 @@ app.get('/api/formations/:id', async (req, res) => {
 });
 
 // Routes rendez-vous
-app.post('/api/appointments', async (req, res) => {
+app.post('/api/appointments', upload.single('image'), async (req, res) => {
   try {
-    console.log('Données reçues :', req.body);
-    const appointment = await Appointment.create(req.body);
+    const { title, description, link } = req.body;
+    const image = req.file ? req.file.path.replace(/\\/g, '/') : '';
+
+    const appointment = await Appointment.create({
+      title,
+      description,
+      link,
+      image
+    });
+
     res.json(appointment);
   } catch (err) {
     console.error(err);
@@ -267,14 +276,21 @@ app.get('/api/videos-podcasts/:id', async (req, res) => {
 });
 
 // Routes Directory
-app.post('/api/directories', async (req, res) => {
+app.post('/api/directories', upload.single('image'), async (req, res) => {
   try {
-    const directory = await Directory.create(req.body);
+    const image = req.file ? req.file.path.replace(/\\/g, '/') : '';
+    const directory = await Directory.create({
+      name: req.body.name,
+      description: req.body.description,
+      image
+    });
     res.json(directory);
   } catch (err) {
+    console.error(err);
     res.status(500).json({ error: 'Erreur lors de la création du directory' });
   }
 });
+
 
 app.get('/api/directories', async (req, res) => {
   try {

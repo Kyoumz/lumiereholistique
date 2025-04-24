@@ -3,7 +3,9 @@
 <h1 class="main-title">Annuaire</h1>
 <div class="container">
   <div class="card-horizontal" *ngFor="let person of directories">
-    <img [src]="'assets/images/' + person.image" [alt]="person.name" class="card-img-horizontal">
+    <!-- <img [src]="'assets/images/' + person.image" [alt]="person.name" > -->
+    <img [src]="environment.apiUrl + '/' + person.image" [alt]="person.name" class="card-img-horizontal">
+
     <div class="card-content">
       <h2>{{ person.name }}</h2>
       <p>{{ person.description }}</p>

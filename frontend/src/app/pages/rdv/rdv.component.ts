@@ -4,7 +4,7 @@ import { HeaderComponent } from '../../components/header/header.component';
 import { FooterComponent } from '../../components/footer/footer.component'; 
 import { CommonModule } from '@angular/common'; 
 import { PagesService } from '../../services/pages.service';
-
+import { environment } from '../../environement';
 @Component({
   selector: 'app-rdv',
   standalone: true,
@@ -14,7 +14,7 @@ import { PagesService } from '../../services/pages.service';
 })
 export class RdvComponent {
   rdv: any[] = [];
-
+  environment = environment;
   constructor(private PagesService: PagesService) {}
 
   ngOnInit() {

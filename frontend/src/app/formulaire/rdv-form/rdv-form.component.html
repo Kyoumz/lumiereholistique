@@ -5,19 +5,22 @@
 
   <form [formGroup]="appointmentForm" (ngSubmit)="submitForm()">
     <label for="title">Titre:</label>
-    <input id="title" formControlName="title" required placeholder="Titre du rendez-vous" />
+    <input id="title" formControlName="title" required />
     <div *ngIf="appointmentForm.get('title')?.invalid && appointmentForm.get('title')?.touched" class="error">
       Le titre est requis.
     </div>
 
     <label for="description">Description:</label>
-    <textarea id="description" formControlName="description" placeholder="Description du rendez-vous"></textarea>
+    <textarea id="description" formControlName="description"></textarea>
 
-    <label for="image">Image URL:</label>
-    <input id="image" formControlName="image" placeholder="https://exemple.com/image.jpg" />
+    <label for="image">Image:</label>
+    <input type="file" id="image" (change)="onImageSelected($event)" />
+    <div *ngIf="imagePreview" class="image-preview">
+      <img [src]="imagePreview" alt="Aperçu de l'image" />
+    </div>
 
     <label for="link">Lien:</label>
-    <input id="link" formControlName="link" placeholder="Lien associé au RDV" />
+    <input id="link" formControlName="link" />
 
     <div *ngIf="successMessage" class="success">{{ successMessage }}</div>
     <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>

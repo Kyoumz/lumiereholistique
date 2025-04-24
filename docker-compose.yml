@@ -20,6 +20,8 @@ services:
     command: ["nodemon", "server.js"]
     depends_on:
       - db
+    env_file:
+      - .env  
     environment:
       - DB_HOST=${DB_HOST}
       - DB_PORT=${DB_PORT}

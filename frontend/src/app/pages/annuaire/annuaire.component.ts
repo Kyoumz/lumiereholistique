@@ -4,6 +4,9 @@ import { RouterModule } from '@angular/router';
 import { HeaderComponent } from '../../components/header/header.component';
 import { FooterComponent } from '../../components/footer/footer.component';
 import { PagesService } from '../../services/pages.service';
+import { environment } from '../../environement';
+
+
 @Component({
   selector: 'app-annuaire',
   standalone: true,
@@ -18,6 +21,7 @@ import { PagesService } from '../../services/pages.service';
 })
 export class AnnuaireComponent implements OnInit {
   directories: any[] = [];
+  environment = environment;
 
   constructor(private PagesService: PagesService) {}
 

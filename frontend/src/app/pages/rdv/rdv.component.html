@@ -4,7 +4,8 @@
     <div class="container">
         <h1 class="main-title">Rendez-vous & Accompagnement</h1>
         <div *ngFor="let appointment of rdv" class="card">
-            <img [src]="appointment.image" alt="RDV Diagnostic Offert" class="card-img">
+            <img [src]="environment.apiUrl + '/' + appointment.image" [alt]="appointment.title" class="card-img">
+
             <h2>{{ appointment.title }}</h2>
             <p>{{ appointment.description }}</p>
             <a [href]="appointment.link" class="button">Prendre rendez-vous</a>
