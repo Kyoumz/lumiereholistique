@@ -5,3 +5,6 @@ import { appConfig } from './app/app.config'; // ← Celui-ci est bon !
 
 bootstrapApplication(AppComponent, appConfig)
   .catch(err => console.error(err));
+
+
+  

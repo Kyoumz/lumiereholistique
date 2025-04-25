@@ -1,3 +1,15 @@
 <app-header></app-header>
-<p>aaaaaaaaaaa</p>
+
+
+<div *ngIf="formations.length > 0; else noFormation">
+  <div *ngFor="let formation of formations" class="formation-card">
+    <h3>{{ formation.title }}</h3>
+    <p>{{ formation.description }}</p>
+  </div>
+</div>
+
+<ng-template #noFormation>
+  <p>Aucune formation disponible.</p>
+</ng-template>
+
 <app-footer></app-footer>

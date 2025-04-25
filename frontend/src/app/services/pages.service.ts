@@ -10,6 +10,18 @@ export class PagesService {
 
   constructor(private http: HttpClient) {}
 
+
+
+  getMyFormations(): Observable<any[]> {
+    const token = localStorage.getItem('token');
+    // console.log(localStorage)
+    return this.http.get<any[]>(`${this.API_URL}/my-formations`, {
+      headers: {
+        Authorization: `${token}`
+      }
+    });
+  }
+  
   // Videos & Podcasts
   getVideosPodcasts(): Observable<any[]> {
     return this.http.get<any[]>(`${this.API_URL}/videos-podcasts`);
@@ -67,3 +79,5 @@ export class PagesService {
     return this.http.post<any>(`${this.API_URL}/appointments`, data);
   }
 }
+
+  

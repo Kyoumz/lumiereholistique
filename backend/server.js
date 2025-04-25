@@ -50,7 +50,7 @@ const fileFilter = (req, file, cb) => {
 const upload = multer({ storage, fileFilter });
 
 app.use(cors({
-  origin: '*',
+  origin: 'http://localhost:4200',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept']
 }));
@@ -336,7 +336,29 @@ app.get('/api/users/:userId/formations', async (req, res) => {
   }
 });
 
+app.get('/api/my-formations', authenticateToken, async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const user = await User.findByPk(userId, {
+      include: Formation
+    });
+
+    if (!user) {
+      return res.status(404).json({ error: 'Utilisateur non trouvé' });
+    }
+
+    res.json(user.Formations);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Erreur lors de la récupération des formations' });
+  }
+});
+
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Serveur en cours d’exécution sur le port ${PORT}`);
 });
+
+
+

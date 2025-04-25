@@ -25,7 +25,7 @@ export class LoginComponent {
         console.log('Connexion réussie', res);
         localStorage.setItem('token', res.token);
         alert('Bienvenue ' + res.user.name);
-        // Redirection possible ici
+      console.log(localStorage)
       },
       error: (err) => {
         console.error(err);
