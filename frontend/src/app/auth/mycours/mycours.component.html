@@ -1,15 +1,25 @@
 <app-header></app-header>
 
+<main>
+  <div class="container">
+    <h1 class="main-title">Mes Cours</h1>
 
-<div *ngIf="formations.length > 0; else noFormation">
-  <div *ngFor="let formation of formations" class="formation-card">
-    <h3>{{ formation.title }}</h3>
-    <p>{{ formation.description }}</p>
+    <div *ngIf="formations.length > 0; else noFormation">
+      <div *ngFor="let formation of formations" class="formation-card">
+        <h3>{{ formation.title }}</h3>
+        <p>{{ formation.description }}</p>
+        <!-- <a [routerLink]="'/formation/' + formation.id" class="button">Acheter</a> -->
+      </div>
+    </div>
+
+    <ng-template #noFormation>
+      <p>Aucune formation disponible.</p>
+    </ng-template>
   </div>
-</div>
 
-<ng-template #noFormation>
-  <p>Aucune formation disponible.</p>
-</ng-template>
+  <div class="shape shape1"></div>
+  <div class="shape shape2"></div>
+  <div class="shape shape3"></div>
+</main>
 
 <app-footer></app-footer>

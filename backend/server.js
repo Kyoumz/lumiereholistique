@@ -50,9 +50,9 @@ const fileFilter = (req, file, cb) => {
 const upload = multer({ storage, fileFilter });
 
 app.use(cors({
-  origin: 'http://localhost:4200',
+  origin: '*',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept']
+  allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept','Authorization']
 }));
 
 app.use(express.json());

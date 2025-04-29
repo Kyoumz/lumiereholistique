@@ -17,7 +17,7 @@ export class PagesService {
     // console.log(localStorage)
     return this.http.get<any[]>(`${this.API_URL}/my-formations`, {
       headers: {
-        Authorization: `${token}`
+        Authorization: `Bearer ${token}`
       }
     });
   }

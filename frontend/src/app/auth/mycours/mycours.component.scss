@@ -1,0 +1,122 @@
+main {
+    font-family: Arial, sans-serif;
+    position: relative;
+    padding: 100px 0;
+    overflow: hidden;
+      padding-bottom: 220px; /* Ajuste la valeur selon tes préférences */
+  }
+  
+  .main-title {
+    width: 100%;
+    text-align: center;
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 30px;
+  }
+  
+  .container {
+    padding: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 0 auto;
+  }
+  
+  .formation-card {
+    background-color: #fff;
+    width: 300px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+    margin: 10px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .formation-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 16px rgba(102, 180, 204, 0.5);
+  }
+  
+  .formation-card h3 {
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .formation-card p {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 20px;
+  }
+  
+  .button {
+    text-decoration: none;
+    display: inline-block;
+    background-color: #66b4cc;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+  }
+  
+  .button:hover {
+    background-color: #0fb7eaf7;
+  }
+  
+  .shape {
+    position: absolute;
+    background-color: #4ac4d3;
+    opacity: 0.5;
+    border-radius: 50%;
+    z-index: -2;
+  }
+  
+  .shape1 {
+    width: 200px;
+    height: 180px;
+    top: 10%;
+    left: 15%;
+    transform: rotate(20deg);
+  }
+  
+  .shape2 {
+    width: 250px;
+    height: 200px;
+    top: 40%;
+    right: 10%;
+    transform: rotate(-15deg);
+  }
+  
+  .shape3 {
+    width: 180px;
+    height: 150px;
+    bottom: 15%;
+    left: 40%;
+    transform: rotate(30deg);
+  }
+  
+  .create-rdv-btn {
+    background-color: #66b4cc;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 12px;
+    margin: 20px 10px;
+    cursor: pointer;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+  }
+  
+  .create-rdv-btn a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    font-family: 'Roboto', sans-serif;
+  }
+  
+  .create-rdv-btn:hover {
+    background-color: #559bb0;
+  }

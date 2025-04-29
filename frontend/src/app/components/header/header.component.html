@@ -15,12 +15,22 @@
     <ul class="nav-links">
       <label for="close-btn" class="btn close-btn"><i class="fas fa-times"></i></label>
       <li><a href="./">Acceuil</a></li>
-      <li><a href="/sante">Espace Santé & Bien-être</a></li>
-      <li><a href="/formation">Espace Formation</a></li>
+      <li><a href="/sante">Espace Santé</a></li>
+      <li><a href="/formation">Formation</a></li>
       <li><a href="/rdv">Rdv & accompagnement</a></li>
       <li><a href="/contact">Contact</a></li>
-      <li><a href="/login" class="login-btn">Connexion</a></li>
+<!-- Si pas connecté -->
+<li *ngIf="!isLoggedIn">
+  <a href="/login" class="login-btn">Connexion</a>
+</li>
 
+<!-- Si connecté -->
+<li *ngIf="isLoggedIn" class="user-menu">
+  <a href="/mycours">{{ userName }}</a>
+  <button (click)="logout()" class="logout-btn">Déconnexion</button>
+</li>
+
+      
            </ul>
     <label for="menu-btn" class="btn menu-btn"><i class="fas fa-bars"></i></label>
   </div>
