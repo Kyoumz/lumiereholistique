@@ -1,364 +1,426 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-const sequelize = require('./db');
-const multer = require('multer');
 const path = require('path');
+const fs = require('fs');
+const multer = require('multer');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+
+const sequelize = require('./db');
+const setupAssociations = require('./models/associations');
+const authenticateToken = require('./middlewares/auth');
+
 const User = require('./models/Users');
 const Article = require('./models/Articles');
 const Formation = require('./models/Formations');
 const Appointment = require('./models/Appointments');
 const VideosPodcast = require('./models/VideosPodcast');
 const Directory = require('./models/Directory');
-const authenticateToken = require('./middlewares/auth');
-const UserFormation = require('./models/UserFormation'); 
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const SECRET = process.env.JWT_SECRET; 
-const setupAssociations = require('./models/associations');
-setupAssociations(); 
+const UserFormation = require('./models/UserFormation');
+const Chapter = require('./models/Chapters');
+
 const app = express();
-const fs = require('fs');
+const SECRET = process.env.JWT_SECRET;
 
+setupAssociations();
 
+// Création des dossiers
 const uploadDir = path.join(__dirname, 'uploads');
-if (!fs.existsSync(uploadDir)) {
-  fs.mkdirSync(uploadDir);
-  console.log('📁 Dossier "uploads/" créé automatiquement');
-}
+const videoDir = path.join(__dirname, 'videos');
+const videoPodcastDir = path.join(__dirname, 'videoPodcasts');
 
+if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir);
+if (!fs.existsSync(videoDir)) fs.mkdirSync(videoDir);
+if (!fs.existsSync(videoPodcastDir)) fs.mkdirSync(videoPodcastDir);
 
-// Configuration de multer pour gérer les fichiers image
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'uploads/'); // Dossier où les images seront stockées
-  },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname)); // Crée un nom unique pour chaque fichier
-  }
-});
-
-// Filtre de type de fichier
-const fileFilter = (req, file, cb) => {
-  if (file.mimetype.startsWith('image/')) {
-    cb(null, true); // Si c'est une image, on l'accepte
-  } else {
-    cb(new Error('Seules les images sont autorisées'), false); // Sinon, on rejette le fichier
-  }
-};
-
-const upload = multer({ storage, fileFilter });
-
-app.use(cors({
-  origin: '*',
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept','Authorization']
-}));
-
+// Middleware
+app.use(cors());
 app.use(express.json());
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/uploads', express.static(uploadDir));
+app.use('/videos', express.static(videoDir));
+app.use('/videoPodcasts', express.static(videoPodcastDir));
 
+// Multer : images
+const imageStorage = multer.diskStorage({
+  destination: (_, __, cb) => cb(null, 'uploads/'),
+  filename: (_, file, cb) => cb(null, Date.now() + path.extname(file.originalname)),
+});
+const imageFilter = (_, file, cb) => {
+  file.mimetype.startsWith('image/') ? cb(null, true) : cb(new Error('Seules les images sont autorisées'), false);
+};
+const uploadImage = multer({ storage: imageStorage, fileFilter: imageFilter });
 
-// Inscription
+// Multer : vidéos
+const videoStorage = multer.diskStorage({
+  destination: (_, __, cb) => cb(null, 'videos/'),
+  filename: (_, file, cb) => cb(null, Date.now() + path.extname(file.originalname)),
+});
+const videoFilter = (_, file, cb) => {
+  file.mimetype.startsWith('video/') ? cb(null, true) : cb(new Error('Seules les vidéos sont autorisées'), false);
+};
+const uploadVideo = multer({ storage: videoStorage, fileFilter: videoFilter });
+
+// Multer : vidéos/podcasts
+const vpStorage = multer.diskStorage({
+  destination: (_, __, cb) => cb(null, 'videoPodcasts/'),
+  filename: (_, file, cb) => cb(null, Date.now() + path.extname(file.originalname)),
+});
+const vpFilter = (_, file, cb) => {
+  const isValid = file.mimetype.startsWith('video/') || file.mimetype.startsWith('audio/');
+  isValid ? cb(null, true) : cb(new Error('Seuls les fichiers audio ou vidéo sont autorisés'), false);
+};
+const uploadVP = multer({ storage: vpStorage, fileFilter: vpFilter });
+
+/* --- AUTH --- */
 app.post('/api/register', async (req, res) => {
   const { name, email, password, role } = req.body;
-
   try {
     const existingUser = await User.findOne({ where: { email } });
-    if (existingUser) {
-      return res.status(400).json({ error: 'Email déjà utilisé' });
-    }
+    if (existingUser) return res.status(400).json({ error: 'Email déjà utilisé' });
 
     const newUser = await User.create({ name, email, password, role });
-    res.status(201).json({ message: 'Utilisateur créé avec succès', user: newUser });
+    res.status(201).json({ message: 'Utilisateur créé', user: newUser });
   } catch (err) {
-    console.error(err);
     res.status(500).json({ error: 'Erreur lors de l’inscription' });
   }
 });
 
-// Connexion
 app.post('/api/login', async (req, res) => {
   const { email, password } = req.body;
-
   try {
     const user = await User.findOne({ where: { email } });
-    if (!user) {
+    if (!user || !(await bcrypt.compare(password, user.password))) {
       return res.status(401).json({ error: 'Email ou mot de passe invalide' });
     }
-
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) {
-      return res.status(401).json({ error: 'Email ou mot de passe invalide' });
-    }
-
-    const token = jwt.sign(
-      { id: user.id, email: user.email, role: user.role },
-      SECRET,
-      { expiresIn: '1d' }
-    );
-
+    const token = jwt.sign({ id: user.id, email: user.email, role: user.role }, SECRET, { expiresIn: '1d' });
     res.json({ message: 'Connexion réussie', token, user });
   } catch (err) {
-    console.error(err);
     res.status(500).json({ error: 'Erreur lors de la connexion' });
   }
 });
 
-// Routes utilisateurs
+/* --- USERS --- */
 app.post('/api/users', async (req, res) => {
   try {
-    const newUser = await User.create(req.body);
-    res.json(newUser);
-  } catch (err) {
-    res.status(500).json({ error: 'Erreur lors de la création de l’utilisateur' });
+    const user = await User.create(req.body);
+    res.json(user);
+  } catch {
+    res.status(500).json({ error: 'Erreur création utilisateur' });
   }
 });
 
-app.get('/api/users', async (req, res) => {
+app.get('/api/users', async (_, res) => {
   try {
     const users = await User.findAll();
     res.json(users);
-  } catch (err) {
-    res.status(500).json({ error: 'Erreur lors de la récupération des utilisateurs' });
+  } catch {
+    res.status(500).json({ error: 'Erreur récupération utilisateurs' });
   }
 });
 
-// Routes articles et conseils
-app.post('/api/articles', upload.single('image'), async (req, res) => {
+/* --- ARTICLES --- */
+app.post('/api/articles', uploadImage.single('image'), async (req, res) => {
   try {
     const { title, description, content } = req.body;
-    const image = req.file ? req.file.path.replace(/\\/g, '/') : ''; // chemin de l'image
-
-    const article = await Article.create({
-      title,
-      description,
-      content,
-      image
-    });
-
+    const image = req.file ? req.file.path.replace(/\\/g, '/') : '';
+    const article = await Article.create({ title, description, content, image });
     res.json(article);
-  } catch (err) {
-    res.status(500).json({ error: 'Erreur lors de la création de l’article' });
+  } catch {
+    res.status(500).json({ error: 'Erreur création article' });
   }
 });
 
-app.get('/api/articles', async (req, res) => {
+app.get('/api/articles', async (_, res) => {
   try {
     const articles = await Article.findAll();
     res.json(articles);
-  } catch (err) {
-    res.status(500).json({ error: 'Erreur lors de la récupération des articles' });
+  } catch {
+    res.status(500).json({ error: 'Erreur récupération articles' });
   }
 });
 
-// Route pour récupérer un article par ID
 app.get('/api/articles/:id', async (req, res) => {
   try {
-    const articleId = req.params.id;
-    const article = await Article.findByPk(articleId);
-
-    if (article) {
-      res.json(article);
-    } else {
-      res.status(404).json({ error: 'Article non trouvé' });
-    }
-  } catch (err) {
-    res.status(500).json({ error: 'Erreur lors de la récupération de l\'article' });
+    const article = await Article.findByPk(req.params.id);
+    article ? res.json(article) : res.status(404).json({ error: 'Article non trouvé' });
+  } catch {
+    res.status(500).json({ error: 'Erreur récupération article' });
   }
 });
 
-// Routes formations avec upload d'images
-app.post('/api/formations', upload.single('image'), async (req, res) => {
+/* --- FORMATIONS + CHAPITRES --- */
+const uploadMixed = multer({
+  storage: multer.diskStorage({
+    destination: (req, file, cb) => {
+      const dest = file.mimetype.startsWith('image/') ? 'uploads/' : 'videos/';
+      cb(null, dest);
+    },
+    filename: (_, file, cb) => cb(null, Date.now() + path.extname(file.originalname)),
+  }),
+});
+
+app.post('/api/formations', uploadMixed.any(), async (req, res) => {
   try {
     const { title, description, content, price } = req.body;
-    const imagePath = req.file ? req.file.path : null; // Si une image est téléchargée, on prend son chemin
+    const image = req.files.find(f => f.fieldname === 'image')?.path || null;
 
-    const formation = await Formation.create({
-      title,
-      description,
-      content,
-      price,
-      image: imagePath 
-    });
+    const formation = await Formation.create({ title, description, content, price, image });
 
-    res.json(formation);
+    const chaptersRaw = JSON.parse(req.body.chapters || '[]');
+    const chapters = [];
+
+    for (let i = 0; i < chaptersRaw.length; i++) {
+      const chapterData = chaptersRaw[i];
+      const videoFile = req.files.find(f => f.fieldname === chapterData.videoField);
+
+      const chapter = await Chapter.create({
+        title: chapterData.title,
+        description: chapterData.description || '',
+        video: videoFile?.path || null,
+        formationId: formation.id
+      });
+
+      chapters.push(chapter);
+    }
+
+    res.status(201).json({ formation, chapters });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: 'Erreur lors de la création de la formation' });
+    res.status(500).json({ error: 'Erreur création formation' });
   }
 });
 
-app.get('/api/formations', async (req, res) => {
+app.get('/api/formations', async (_, res) => {
   try {
-    const formations = await Formation.findAll();
+    const formations = await Formation.findAll({ include: [{ model: Chapter, as: 'chapters' }] });
     res.json(formations);
-  } catch (err) {
-    res.status(500).json({ error: 'Erreur lors de la récupération des formations' });
+  } catch {
+    res.status(500).json({ error: 'Erreur récupération formations' });
   }
 });
 
-// **Nouvelle route pour récupérer une formation par ID**
 app.get('/api/formations/:id', async (req, res) => {
   try {
-    const formationId = req.params.id;
-    const formation = await Formation.findByPk(formationId);
-
-    if (formation) {
-      res.json(formation);
-    } else {
-      res.status(404).json({ error: 'Formation non trouvée' });
-    }
-  } catch (err) {
-    res.status(500).json({ error: 'Erreur lors de la récupération de la formation' });
+    const formation = await Formation.findByPk(req.params.id, {
+      include: [{ model: Chapter, as: 'chapters' }]
+    });
+    formation ? res.json(formation) : res.status(404).json({ error: 'Formation non trouvée' });
+  } catch {
+    res.status(500).json({ error: 'Erreur récupération formation' });
   }
 });
 
-// Routes rendez-vous
-app.post('/api/appointments', upload.single('image'), async (req, res) => {
+/* --- CHAPTERS INDIVIDUELS --- */
+app.post('/api/formations/:formationId/chapters', uploadVideo.single('video'), async (req, res) => {
+  try {
+    const { title, description } = req.body;
+    const { formationId } = req.params;
+
+    const chapter = await Chapter.create({
+      title,
+      description,
+      video: req.file ? req.file.path.replace(/\\/g, '/') : '',
+      formationId
+    });
+
+    res.json(chapter);
+  } catch {
+    res.status(500).json({ error: 'Erreur création chapitre' });
+  }
+});
+
+app.get('/api/formations/:formationId/chapters', async (req, res) => {
+  try {
+    const chapters = await Chapter.findAll({ where: { formationId: req.params.formationId } });
+    res.json(chapters);
+  } catch {
+    res.status(500).json({ error: 'Erreur récupération chapitres' });
+  }
+});
+
+/* --- APPOINTMENTS --- */
+app.post('/api/appointments', uploadImage.single('image'), async (req, res) => {
   try {
     const { title, description, link } = req.body;
     const image = req.file ? req.file.path.replace(/\\/g, '/') : '';
-
-    const appointment = await Appointment.create({
-      title,
-      description,
-      link,
-      image
-    });
-
+    const appointment = await Appointment.create({ title, description, link, image });
     res.json(appointment);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Erreur lors de la prise de rendez-vous' });
+  } catch {
+    res.status(500).json({ error: 'Erreur prise de rendez-vous' });
   }
 });
 
-app.get('/api/appointments', async (req, res) => {
+app.get('/api/appointments', async (_, res) => {
   try {
     const appointments = await Appointment.findAll();
     res.json(appointments);
-  } catch (err) {
-    res.status(500).json({ error: 'Erreur lors de la récupération des rendez-vous' });
+  } catch {
+    res.status(500).json({ error: 'Erreur récupération rendez-vous' });
   }
 });
 
-// Routes VideosPodcast
-app.post('/api/videos-podcasts', async (req, res) => {
+/* --- VIDEOS & PODCASTS --- */
+app.post('/api/videos-podcasts', uploadVP.single('file'), async (req, res) => {
   try {
-    const item = await VideosPodcast.create(req.body);
-    res.json(item);
+    const { title, themes, description } = req.body;
+    
+    // Vérifie si un fichier a bien été téléchargé
+    if (!req.file) {
+      return res.status(400).json({ error: 'Aucun fichier téléchargé' });
+    }
+    // Créer l'enregistrement dans la base de données
+    const videoPodcast = await VideosPodcast.create({
+      title, 
+      themes, 
+      description, 
+      file: req.file.path.replace(/\\/g, '/')  // Chemin du fichier
+    });
+
+    res.status(201).json({ message: 'Vidéos/Podcast téléchargé avec succès', videoPodcast });
   } catch (err) {
-    res.status(500).json({ error: 'Erreur lors de la création du contenu vidéo/podcast' });
+    console.error(err);
+    res.status(500).json({ error: 'Erreur lors de l’upload du fichier' });
   }
 });
 
-app.get('/api/videos-podcasts', async (req, res) => {
+
+app.get('/api/videos-podcasts', async (_, res) => {
   try {
     const items = await VideosPodcast.findAll();
     res.json(items);
-  } catch (err) {
-    res.status(500).json({ error: 'Erreur lors de la récupération des contenus vidéos/podcasts' });
+  } catch {
+    res.status(500).json({ error: 'Erreur récupération vidéos/podcasts' });
   }
 });
 
 app.get('/api/videos-podcasts/:id', async (req, res) => {
   try {
     const item = await VideosPodcast.findByPk(req.params.id);
-    if (item) {
-      res.json(item);
-    } else {
-      res.status(404).json({ error: 'Vidéo/Podcast non trouvé' });
-    }
-  } catch (err) {
-    res.status(500).json({ error: 'Erreur lors de la récupération du contenu' });
+    item ? res.json(item) : res.status(404).json({ error: 'Non trouvé' });
+  } catch {
+    res.status(500).json({ error: 'Erreur récupération contenu' });
   }
 });
 
-// Routes Directory
-app.post('/api/directories', upload.single('image'), async (req, res) => {
+/* --- DIRECTORY --- */
+app.post('/api/directories', uploadImage.single('image'), async (req, res) => {
   try {
-    const image = req.file ? req.file.path.replace(/\\/g, '/') : '';
     const directory = await Directory.create({
       name: req.body.name,
       description: req.body.description,
-      image
+      image: req.file ? req.file.path.replace(/\\/g, '/') : ''
     });
     res.json(directory);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Erreur lors de la création du directory' });
+  } catch {
+    res.status(500).json({ error: 'Erreur création directory' });
   }
 });
 
-
-app.get('/api/directories', async (req, res) => {
+app.get('/api/directories', async (_, res) => {
   try {
     const directories = await Directory.findAll();
     res.json(directories);
-  } catch (err) {
-    res.status(500).json({ error: 'Erreur lors de la récupération des directories' });
+  } catch {
+    res.status(500).json({ error: 'Erreur récupération directories' });
   }
 });
 
-// Routes pour l'association entre un utilisateur et une formation
+/* --- ASSOCIATION USER <-> FORMATION --- */
 app.post('/api/users/:userId/formations/:formationId', async (req, res) => {
   try {
     const user = await User.findByPk(req.params.userId);
     const formation = await Formation.findByPk(req.params.formationId);
-
-    if (!user || !formation) {
-      return res.status(404).json({ error: 'Utilisateur ou formation introuvable' });
-    }
+    if (!user || !formation) return res.status(404).json({ error: 'Introuvable' });
 
     await user.addFormation(formation);
-    res.json({ message: 'Formation assignée à l’utilisateur avec succès' });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Erreur lors de l’association' });
+    res.json({ message: 'Formation assignée' });
+  } catch {
+    res.status(500).json({ error: 'Erreur association formation' });
   }
 });
 
 app.get('/api/users/:userId/formations', async (req, res) => {
-  const { userId } = req.params;
   try {
-    const user = await User.findByPk(userId, {
-      include: Formation
-    });
-
-    if (!user) {
-      return res.status(404).json({ error: 'Utilisateur non trouvé' });
-    }
-
+    const user = await User.findByPk(req.params.userId, { include: Formation });
+    if (!user) return res.status(404).json({ error: 'Utilisateur non trouvé' });
     res.json(user.Formations);
-  } catch (err) {
-    res.status(500).json({ error: 'Erreur lors de la récupération des formations' });
+  } catch {
+    res.status(500).json({ error: 'Erreur récupération formations' });
   }
 });
 
 app.get('/api/my-formations', authenticateToken, async (req, res) => {
   try {
-    const userId = req.user.id;
-    const user = await User.findByPk(userId, {
-      include: Formation
-    });
-
-    if (!user) {
-      return res.status(404).json({ error: 'Utilisateur non trouvé' });
-    }
-
+    const user = await User.findByPk(req.user.id, { include: Formation });
+    if (!user) return res.status(404).json({ error: 'Utilisateur non trouvé' });
     res.json(user.Formations);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Erreur lors de la récupération des formations' });
+  } catch {
+    res.status(500).json({ error: 'Erreur récupération formations' });
   }
 });
 
-
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Serveur en cours d’exécution sur le port ${PORT}`);
+app.get('/api/my-formations/:id', authenticateToken, async (req, res) => {
+  try {
+    const formation = await Formation.findByPk(req.params.id, {
+      include: [{ model: Chapter, as: 'chapters' }]
+    });
+    if (!formation) return res.status(404).json({ error: 'Formation non trouvée' });
+    res.json(formation);
+  } catch (error) {
+    console.error('Erreur Sequelize :', error);
+    res.status(500).json({ error: 'Erreur chargement formation' });
+  }
 });
 
+app.post('/api/my-formations/:formationId', authenticateToken, async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const formation = await Formation.findByPk(req.params.formationId);
+    if (!formation) return res.status(404).json({ error: 'Formation non trouvée' });
 
+    const user = await User.findByPk(userId);
+    await user.addFormation(formation);
+    res.json({ message: 'Formation ajoutée avec succès' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Erreur lors de l’ajout de la formation' });
+  }
+});
+// Définir la fonction pour créer l'admin par défaut
+const createDefaultAdmin = async () => {
+  const adminEmail = process.env.DEFAULT_ADMIN_EMAIL || 'admin@example.com';
+  const adminPassword = process.env.DEFAULT_ADMIN_PASSWORD || 'admin123';
+  const adminName = process.env.DEFAULT_ADMIN_NAME || 'Admin';
 
+  try {
+    const existingAdmin = await User.findOne({ where: { email: adminEmail } });
+    if (!existingAdmin) {
+      await User.create({
+        name: adminName,
+        email: adminEmail,
+        password: adminPassword,
+        role: 'admin'
+      });
+      console.log(`✅ Utilisateur admin créé : ${adminEmail}`);
+    } else {
+      console.log('ℹ️ Utilisateur admin déjà existant.');
+    }
+  } catch (error) {
+    console.error('❌ Erreur lors de la création de l’admin :', error);
+  }
+};
+
+// Synchronisation de la base de données et création de l'admin par défaut
+const PORT = process.env.PORT || 5000;  // Valeur par défaut pour PORT
+sequelize.sync()
+  .then(async () => {
+    console.log('✅ Base de données synchronisée');
+    await createDefaultAdmin(); // <-- appel de la fonction pour créer l'admin
+    app.listen(PORT, () => {
+      console.log(`✅ Serveur lancé sur le port ${PORT}`);
+    });
+  })
+  .catch(err => {
+    console.error('❌ Erreur lors de la synchronisation de la base de données :', err);
+  });

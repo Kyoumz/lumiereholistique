@@ -42,6 +42,33 @@
     <div *ngIf="imagePreview" class="image-preview">
       <img [src]="imagePreview" alt="Aperçu de l'image" />
     </div>
+    
+    <h3>Chapitres</h3>
+<div formArrayName="chapters">
+  <div *ngFor="let chapter of chapters.controls; let i = index" [formGroupName]="i" class="chapter-block">
+    <label>Titre du chapitre</label>
+    <input type="text" formControlName="title" placeholder="Titre du chapitre" />
+
+    <label>Description</label>
+    <textarea formControlName="description" placeholder="Description"></textarea>
+
+    <label>Vidéo</label>
+    <input type="file" (change)="onVideoSelected($event, i)" />
+
+    <button type="button" (click)="removeChapter(i)">Supprimer</button>
+    <hr />
+  </div>
+</div>
+
+<button type="button" (click)="addChapter()">+ Ajouter un chapitre</button>
+
+
+
+
+
+
+
+
 
     <label for="price">Prix:</label>
     <input
@@ -54,6 +81,9 @@
     <div *ngIf="formationForm.get('price')?.invalid && formationForm.get('price')?.touched" class="error">
       Le prix est requis.
     </div>
+
+
+
 
     <div *ngIf="successMessage" class="success">{{ successMessage }}</div>
     <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>

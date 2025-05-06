@@ -6,7 +6,7 @@
         <img [src]="environment.apiUrl + '/' + formation.image" [alt]="formation.title" class="card-img">
         <p>{{ formation.content }}</p>
         <p><strong>Prix :</strong> {{ formation.price }} €</p>
-        <a href="#" class="button">Acheter</a>
+        <a (click)="acheterFormation()" class="button">Acheter</a>
     </div>
 </main>
 

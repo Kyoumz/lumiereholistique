@@ -60,3 +60,13 @@
     color: #666;
   }
   
+  .vp-video {
+    width: 100%;
+    aspect-ratio: 16/9;
+    border-radius: 12px;
+    border: 3px solid #66b4cc;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    background-color: #000;
+    overflow: hidden;
+  }
+  

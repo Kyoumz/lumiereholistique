@@ -2,42 +2,24 @@
 
 <main class="vp-main">
   <h1 class="vp-title">Vidéos & Podcasts</h1>
-
-  <section class="vp-section">
-    <h2 class="vp-subtitle">🎥 Vidéos & 🎧 Podcasts</h2>
-    <div class="vp-grid">
-      <div *ngFor="let video of videos" class="vp-card">
-        <iframe
-          [src]="'https://www.youtube.com/embed/' + extractYouTubeId(video.video)"
-          frameborder="0"
-          allowfullscreen
-          class="vp-video"
-        ></iframe>
-        <div class="vp-info">
-          <h3>{{ video.title }}</h3>
-          <p>{{ video.description }}</p>
-        </div>
-      </div>
+  
+  <div *ngIf="videosPodcasts.length > 0; else loading">
+    <div *ngFor="let video of videosPodcasts" class="vp-item">
+      <h2>{{ video.title }}</h2>
+      <p>{{ video.description }}</p>
+      <p><strong>Thème :</strong> {{ video.themes }}</p>
+  
+      <video *ngIf="video.file" controls width="600">
+        <source [src]="environment.apiUrl + '/' + video.file" type="video/mp4" />
+        Votre navigateur ne supporte pas la vidéo.
+      </video>
     </div>
-  </section>
+  </div>
+  
 
-  <!-- <section class="vp-section">
-    <h2 class="vp-subtitle">🎧 Podcasts</h2>
-    <div class="vp-grid">
-      <div *ngFor="let podcast of podcasts" class="vp-card">
-        <iframe
-          [src]="'https://www.youtube.com/embed/' + extractYouTubeId(podcast.podcast)"
-          frameborder="0"
-          allowfullscreen
-          class="vp-video"
-        ></iframe>
-        <div class="vp-info">
-          <h3>{{ podcast.title }}</h3>
-          <p>{{ podcast.description }}</p>
-        </div>
-      </div>
-    </div>
-  </section> -->
+  <ng-template #loading>
+    <p>Chargement des vidéos...</p>
+  </ng-template>
 </main>
 
 <app-footer></app-footer>

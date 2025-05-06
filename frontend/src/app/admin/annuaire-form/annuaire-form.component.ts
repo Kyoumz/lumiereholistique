@@ -2,28 +2,29 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { HeaderComponent } from '../../components/header/header.component';
+import { HeaderComponent } from '../../header/footer/header/header.component';
 import { PagesService } from '../../services/pages.service';
 
 @Component({
-  selector: 'app-article-form',
+  selector: 'app-annuaire-form',
   standalone: true,
   imports: [ReactiveFormsModule, RouterModule, CommonModule, HeaderComponent],
-  templateUrl: './article-form.component.html',
-  styleUrl: './article-form.component.scss'
+  templateUrl: './annuaire-form.component.html',
+  styleUrl: './annuaire-form.component.scss'
 })
-export class ArticleFormComponent {
-  articleForm: FormGroup;
+
+export class AnnuaireFormComponent {
+  directoryForm: FormGroup;
   successMessage = '';
   errorMessage = '';
   selectedImage: File | null = null;
   imagePreview: string | null = null;
 
   constructor(private fb: FormBuilder, private PagesService: PagesService) {
-    this.articleForm = this.fb.group({
-      title: ['', Validators.required],
-      description: [''],
-      content: ['', Validators.required]
+    this.directoryForm = this.fb.group({
+      name: ['', Validators.required],
+      description: ['', Validators.required],
+      image: [''] // on garde juste pour compatibilité
     });
   }
 
@@ -40,26 +41,26 @@ export class ArticleFormComponent {
   }
 
   submitForm() {
-    if (this.articleForm.valid) {
+    if (this.directoryForm.valid) {
       const formData = new FormData();
-      formData.append('title', this.articleForm.get('title')?.value);
-      formData.append('description', this.articleForm.get('description')?.value);
-      formData.append('content', this.articleForm.get('content')?.value);
+      formData.append('name', this.directoryForm.get('name')?.value);
+      formData.append('description', this.directoryForm.get('description')?.value);
+
       if (this.selectedImage) {
         formData.append('image', this.selectedImage);
       }
 
-      this.PagesService.addArticle(formData).subscribe({
-        next: () => {
-          this.successMessage = 'Article ajouté avec succès !';
+      this.PagesService.addDirectories(formData).subscribe({
+        next: (res) => {
+          this.successMessage = 'Entrée ajoutée avec succès !';
           this.errorMessage = '';
-          this.articleForm.reset();
+          this.directoryForm.reset();
           this.selectedImage = null;
           this.imagePreview = null;
         },
         error: (err) => {
           this.successMessage = '';
-          this.errorMessage = 'Erreur lors de l’ajout de l’article.';
+          this.errorMessage = "Erreur lors de l’ajout.";
           console.error(err);
         }
       });

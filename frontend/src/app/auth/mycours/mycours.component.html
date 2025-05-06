@@ -5,10 +5,14 @@
     <h1 class="main-title">Mes Cours</h1>
 
     <div *ngIf="formations.length > 0; else noFormation">
-      <div *ngFor="let formation of formations" class="formation-card">
+      <div
+        *ngFor="let formation of formations"
+        class="formation-card"
+        (click)="goToFormation(formation.id)"
+        style="cursor: pointer;"
+      >
         <h3>{{ formation.title }}</h3>
         <p>{{ formation.description }}</p>
-        <!-- <a [routerLink]="'/formation/' + formation.id" class="button">Acheter</a> -->
       </div>
     </div>
 

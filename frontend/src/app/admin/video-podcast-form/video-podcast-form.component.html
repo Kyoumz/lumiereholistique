@@ -1,0 +1,20 @@
+<app-header></app-header>
+
+<form [formGroup]="videoPodcastForm" (ngSubmit)="submitForm()" enctype="multipart/form-data">
+  <label for="title">Titre</label>
+  <input id="title" formControlName="title" type="text" required />
+
+  <label for="description">Description</label>
+  <textarea id="description" formControlName="description" required></textarea>
+
+  <label for="themes">Thèmes</label>
+  <input id="themes" formControlName="themes" type="text" placeholder="Ex : santé, éducation" />
+
+  <label for="file">Vidéo ou Podcast</label>
+  <input id="file" type="file" (change)="onFileSelected($event)" accept="video/*,audio/*" required />
+
+  <button type="submit">Ajouter</button>
+
+  <p class="success" *ngIf="successMessage">{{ successMessage }}</p>
+  <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+</form>

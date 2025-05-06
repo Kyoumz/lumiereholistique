@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { HeaderComponent } from '../../components/header/header.component';
-import { FooterComponent } from '../../components/footer/footer.component';
+import { HeaderComponent } from '../../header/footer/header/header.component';
+import { FooterComponent } from '../../header/footer/footer/footer.component';
 import { CommonModule } from '@angular/common'; 
 import { FormsModule } from '@angular/forms'; 
 import { PagesService } from '../../services/pages.service';

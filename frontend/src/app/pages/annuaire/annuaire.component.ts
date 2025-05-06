@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common'; 
 import { RouterModule } from '@angular/router';
-import { HeaderComponent } from '../../components/header/header.component';
-import { FooterComponent } from '../../components/footer/footer.component';
+import { HeaderComponent } from '../../header/footer/header/header.component';
+import { FooterComponent } from '../../header/footer/footer/footer.component';
 import { PagesService } from '../../services/pages.service';
 import { environment } from '../../environement';
 

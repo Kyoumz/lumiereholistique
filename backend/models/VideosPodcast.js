@@ -1,5 +1,5 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../db');  
+const sequelize = require('../db');
 
 const VideosPodcast = sequelize.define('VideosPodcast', {
   id: {
@@ -11,18 +11,18 @@ const VideosPodcast = sequelize.define('VideosPodcast', {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  video: {
+  file: {
     type: DataTypes.STRING,
     allowNull: true, 
   },
-  podcast: {
-    type: DataTypes.TEXT,
-    allowNull: false,
+  themes: {
+    type: DataTypes.STRING,
+    allowNull: true, 
   },
   description: {
     type: DataTypes.TEXT,
     allowNull: false,
-  },
+  }
 });
 
 sequelize.sync()
