@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common'; // ✅ à ajouter
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-header',

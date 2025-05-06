@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormArray } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { HeaderComponent } from '../../header/footer/header/header.component';
+import { HeaderComponent } from '../../header/headerFooter/header/header.component';
 import { PagesService } from '../../services/pages.service';
 
 @Component({

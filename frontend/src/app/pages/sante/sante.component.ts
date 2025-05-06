@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { HeaderComponent } from '../../header/footer/header/header.component';  
-import { FooterComponent } from '../../header/footer/footer/footer.component'; 
+import { HeaderComponent } from '../../header/headerFooter/header/header.component';
+import { FooterComponent } from '../../header/headerFooter/footer/footer.component';
 
 @Component({
   selector: 'app-sante',

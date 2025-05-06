@@ -1,7 +1,44 @@
-
-<!-- Admin actions -->
-<button class="create-rdv-btn"><a href="/creeRdv">Crée RDV</a></button>
-<button class="create-rdv-btn"><a href="/creeArticle">Crée Article</a></button>
-<button class="create-rdv-btn"><a href="/creeFormation">Crée Formation</a></button>
-<button class="create-rdv-btn"><a href="/creeAnnuaire">Crée Annuaire</a></button>
-<button class="create-rdv-btn"><a href="/creeVideoPodcast">Crée Video Podcast</a></button>
+<div class="admin-dashboard">
+    <h1>Tableau de bord Admin</h1>
+  
+    <!-- Statistiques rapides -->
+    <div class="stats">
+      <div class="stat-card">Utilisateurs: {{ users.length }}</div>
+      <div class="stat-card">Articles: {{ articles.length }}</div>
+      <div class="stat-card">Formations: {{ formations.length }}</div>
+      <div class="stat-card">RDVs: {{ appointments.length }}</div>
+    </div>
+  
+    <!-- Actions -->
+    <div class="actions">
+      <h2>Actions rapides</h2>
+      <button><a href="/">Acceuil</a></button> 
+      <button><a href="/creeRdv">Créer RDV</a></button>
+      <button><a href="/creeArticle">Créer Article</a></button>
+      <button><a href="/creeFormation">Créer Formation</a></button>
+      <button><a href="/creeAnnuaire">Créer Annuaire</a></button>
+      <button><a href="/creeVideoPodcast">Créer Vidéo/Podcast</a></button>
+    </div>
+  
+    <!-- Liste des utilisateurs (exemple de section de gestion) -->
+    <div class="user-list">
+      <h2>Utilisateurs</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Nom</th>
+            <th>Email</th>
+            <th>Rôle</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of users">
+            <td>{{ user.name }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.role }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  

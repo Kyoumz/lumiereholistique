@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { PagesService } from '../../services/pages.service';
-import { HeaderComponent } from '../../header/footer/header/header.component';
-import { FooterComponent } from '../../header/footer/footer/footer.component';
+import { HeaderComponent } from '../../header/headerFooter/header/header.component';
+import { FooterComponent } from '../../header/headerFooter/footer/footer.component';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { MycoursdetailComponent } from './mycoursdetail/mycoursdetail.component';
 
 @Component({
   selector: 'app-mycours',
@@ -23,12 +22,6 @@ export class MycoursComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      this.router.navigate(['/login']);
-      return;
-    }
-
     this.pagesService.getMyFormations().subscribe({
       next: (data) => {
         this.formations = data;

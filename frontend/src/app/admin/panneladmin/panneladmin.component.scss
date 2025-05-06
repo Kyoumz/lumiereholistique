@@ -20,3 +20,60 @@
   .create-rdv-btn:hover {
     background-color: #559bb0;
   }
+
+  .admin-dashboard {
+    padding: 2rem;
+    font-family: Arial, sans-serif;
+  
+    .stats {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 2rem;
+  
+      .stat-card {
+        background: #f0f0f0;
+        padding: 1rem;
+        border-radius: 8px;
+        font-weight: bold;
+        flex: 1;
+        text-align: center;
+      }
+    }
+  
+    .actions {
+      margin-bottom: 2rem;
+  
+      button {
+        margin: 0.5rem;
+        padding: 0.8rem 1.2rem;
+        background: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+  
+        a {
+          color: white;
+          text-decoration: none;
+        }
+  
+        &:hover {
+          background: #0056b3;
+        }
+      }
+    }
+  
+    .user-list table {
+      width: 100%;
+      border-collapse: collapse;
+  
+      th, td {
+        border: 1px solid #ccc;
+        padding: 0.5rem;
+      }
+  
+      th {
+        background: #eee;
+      }
+    }
+  }
+  

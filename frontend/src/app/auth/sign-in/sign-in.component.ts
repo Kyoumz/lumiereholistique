@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { HeaderComponent } from '../../header/footer/header/header.component';
+import { HeaderComponent } from '../../header/headerFooter/header/header.component';
 import { HttpClientModule } from '@angular/common/http';
 
 @Component({

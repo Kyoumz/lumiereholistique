@@ -19,6 +19,7 @@ import { VideoPodcastFormComponent } from './admin/video-podcast-form/video-podc
 import { AnnuaireFormComponent } from './admin/annuaire-form/annuaire-form.component';
 import { MycoursdetailComponent } from './auth/mycours/mycoursdetail/mycoursdetail.component';
 import { PanneladminComponent } from './admin/panneladmin/panneladmin.component';
+import { AuthGuard } from '../auth.guard';
 
 export const routes: Routes = [
   //page
@@ -45,7 +46,9 @@ export const routes: Routes = [
   //auth
   { path: 'login', component: LoginComponent }, 
   { path: 'signin', component: SignInComponent }, 
-  { path: 'mycours', component: MycoursComponent }, 
-  { path: 'mycours/:id', component: MycoursdetailComponent}, 
+  // { path: 'mycours', component: MycoursComponent }, 
+  // { path: 'mycours/:id', component: MycoursdetailComponent}, 
+  { path: 'mycours', component: MycoursComponent, canActivate: [AuthGuard] }, 
+  { path: 'mycours/:id', component: MycoursdetailComponent, canActivate: [AuthGuard] }, 
 
 ];

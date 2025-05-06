@@ -3,8 +3,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { PagesService } from '../../services/pages.service';
-import { HeaderComponent } from '../../header/footer/header/header.component';
-
+import { HeaderComponent } from '../../header/headerFooter/header/header.component';
 @Component({
   selector: 'app-video-podcast-form',
   standalone: true,
