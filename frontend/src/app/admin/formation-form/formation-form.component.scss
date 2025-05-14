@@ -101,3 +101,28 @@ button:disabled {
   margin-bottom: 10px;
   text-align: center;
 }
+
+
+.actions {
+  margin-bottom: 2rem;
+
+  button {
+    margin: 0.5rem;
+    padding: 0.8rem 1.2rem;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+
+    a {
+      color: white;
+      text-decoration: none;
+    }
+
+    &:hover {
+      background: #0056b3;
+    }
+  }
+}
+
+

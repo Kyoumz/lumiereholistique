@@ -2,13 +2,12 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormArray } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { HeaderComponent } from '../../header/headerFooter/header/header.component';
 import { PagesService } from '../../services/pages.service';
 
 @Component({
   selector: 'app-formation-form',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterModule, CommonModule, HeaderComponent],
+  imports: [ReactiveFormsModule, RouterModule, CommonModule],
   templateUrl: './formation-form.component.html',
   styleUrls: ['./formation-form.component.scss']
 })

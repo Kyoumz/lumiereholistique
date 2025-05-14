@@ -103,6 +103,75 @@ export class PagesService {
   }
 
 
+  // Users
+  deleteUser(id: number): Observable<any> {
+    return this.http.delete(`${this.API_URL}/api/users/${id}`);
+  }
+
+  // Articles
+  deleteArticle(id: number): Observable<any> {
+    return this.http.delete(`${this.API_URL}/api/articles/${id}`);
+  }
+
+  // Formations
+  deleteFormation(id: number): Observable<any> {
+    return this.http.delete(`${this.API_URL}/api/formations/${id}`);
+  }
+
+  // Appointments
+  deleteAppointment(id: number): Observable<any> {
+    return this.http.delete(`${this.API_URL}/api/appointments/${id}`);
+  }
+
+  // Directories
+  deleteDirectory(id: number): Observable<any> {
+    return this.http.delete(`${this.API_URL}/api/directories/${id}`);
+  }
+
+  // Videos / Podcasts
+  deleteVideosPodcasts(id: number): Observable<any> {
+    return this.http.delete(`${this.API_URL}/api/videos-podcasts/${id}`);
+  }
+
+  updateArticle(id: string, data: any): Observable<any> {
+    return this.http.put(`${this.API_URL}/api/articles/${id}`, data);
+  }
+  
+
+  updateAppointment(id: string, data: any): Observable<any> {
+    return this.http.put(`${this.API_URL}/api/appointments/${id}`, data);
+  }
+
+  updateFormation(id: string, data: any): Observable<any> {
+    return this.http.put(`${this.API_URL}/api/formations/${id}`, data);
+  }
+  
+  getAppointmentById(id: string): Observable<any> {
+    return this.http.get<any>(`${this.API_URL}/api/appointments/${id}`);
+  }
+
+  // Récupérer un annuaire par son ID
+getDirectoryById(id: string) {
+  return this.http.get<any>(`/api/directories/${id}`);
+}
+
+// Mettre à jour un annuaire existant
+updateDirectory(id: string, formData: FormData) {
+  return this.http.put(`/api/directories/${id}`, formData);
+}
+
+// Récupération d'un podcast/vidéo par ID
+getVideoPodcastById(id: string) {
+  return this.http.get<any>(`/api/videos-podcasts/${id}`);
+}
+
+// Mise à jour
+updateVideoPodcast(id: string, formData: FormData) {
+  return this.http.put(`/api/videos-podcasts/${id}`, formData);
+}
+
+
+
 }
 
   

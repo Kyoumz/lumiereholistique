@@ -1,44 +1,154 @@
 <div class="admin-dashboard">
-    <h1>Tableau de bord Admin</h1>
-  
-    <!-- Statistiques rapides -->
-    <div class="stats">
-      <div class="stat-card">Utilisateurs: {{ users.length }}</div>
-      <div class="stat-card">Articles: {{ articles.length }}</div>
-      <div class="stat-card">Formations: {{ formations.length }}</div>
-      <div class="stat-card">RDVs: {{ appointments.length }}</div>
-    </div>
-  
-    <!-- Actions -->
-    <div class="actions">
-      <h2>Actions rapides</h2>
-      <button><a href="/">Acceuil</a></button> 
-      <button><a href="/creeRdv">Créer RDV</a></button>
-      <button><a href="/creeArticle">Créer Article</a></button>
-      <button><a href="/creeFormation">Créer Formation</a></button>
-      <button><a href="/creeAnnuaire">Créer Annuaire</a></button>
-      <button><a href="/creeVideoPodcast">Créer Vidéo/Podcast</a></button>
-    </div>
-  
-    <!-- Liste des utilisateurs (exemple de section de gestion) -->
-    <div class="user-list">
-      <h2>Utilisateurs</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Nom</th>
-            <th>Email</th>
-            <th>Rôle</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let user of users">
-            <td>{{ user.name }}</td>
-            <td>{{ user.email }}</td>
-            <td>{{ user.role }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+  <h1>Tableau de bord Admin</h1>
+
+  <!-- Statistiques -->
+  <div class="stats">
+    <div class="stat-card">Utilisateurs: {{ users.length }}</div>
+    <div class="stat-card">Articles: {{ articles.length }}</div>
+    <div class="stat-card">Formations: {{ formations.length }}</div>
+    <div class="stat-card">RDVs: {{ appointments.length }}</div>
+    <div class="stat-card">Annuaires: {{ directories.length }}</div>
+    <div class="stat-card">Vidéos/Podcasts: {{ videosPodcasts.length }}</div>
   </div>
-  
+
+  <!-- Actions rapides -->
+  <div class="actions">
+    <h2>Actions rapides</h2>
+    <button><a href="/">Accueil</a></button> 
+    <button><a href="/creeRdv">Créer RDV</a></button>
+    <button><a href="/creeArticle">Créer Article</a></button>
+    <button><a href="/creeFormation">Créer Formation</a></button>
+    <button><a href="/creeAnnuaire">Créer Annuaire</a></button>
+    <button><a href="/creeVideoPodcast">Créer Vidéo/Podcast</a></button>
+  </div>
+
+  <!-- Tableaux -->
+
+  <!-- Utilisateurs -->
+  <h2>Utilisateurs</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Nom</th>
+        <th>Email</th>
+        <th>Rôle</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of users">
+        <td>{{ user.name }}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.role }}</td>
+        <td><button (click)="deleteUser(user.id)">Supprimer</button></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Articles -->
+  <h2>Articles</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Titre</th>
+        <th>Auteur</th>
+        <th>Actions</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let article of articles">
+        <td>{{ article.title }}</td>
+        <td>{{ article.author }}</td>
+        <td><button (click)="deleteArticle(article.id)">Supprimer</button></td>
+        <td><button (click)="editArticle(article.id)">Modifier</button></td>
+
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Formations -->
+  <h2>Formations</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Titre</th>
+        <th>Description</th>
+        <th>Actions</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let formation of formations">
+        <td>{{ formation.title }}</td>
+        <td>{{ formation.description }}</td>
+        <td><button (click)="deleteFormation(formation.id)">Supprimer</button></td>
+        <button (click)="editFormation(formation.id)">Modifier</button>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Appointments -->
+  <h2>Rendez-vous</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Nom</th>
+        <th>liens</th>
+        <th>Actions</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let appointment of appointments">
+        <td>{{ appointment.title }}</td>
+        <td>{{ appointment.link }}</td>
+        <td><button (click)="deleteAppointment(appointment.id)">Supprimer</button></td>
+        <td><button (click)="editAppointment(appointment.id)">Modifier</button></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Annuaire -->
+  <h2>Annuaires</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Nom</th>
+        <th>Description</th>
+        <th>Actions</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let directory of directories">
+        <td>{{ directory.name }}</td>
+        <td>{{ directory.description }}</td>
+        <td><button (click)="deleteDirectory(directory.id)">Supprimer</button></td>
+        <td>  <button (click)="editDirectory(directory.id)">Modifier</button></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Vidéos/Podcasts -->
+  <h2>Vidéos / Podcasts</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Titre</th>
+        <th>Type</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let vp of videosPodcasts">
+        <td>{{ vp.title }}</td>
+        <td>{{ vp.type }}</td>
+        <td><button (click)="deleteVideosPodcasts(vp.id)">Supprimer</button></td>
+        <td>
+          <button (click)="editVideoPodcast(vp.id)">Modifier</button>
+        </td>        
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -41,6 +41,13 @@ export const routes: Routes = [
   { path: 'creeAnnuaire', component: AnnuaireFormComponent }, 
   { path: 'creeVideoPodcast', component: VideoPodcastFormComponent }, 
   { path: 'admin', component: PanneladminComponent }, 
+  { path: 'editArticle/:id', component: ArticleFormComponent },
+  { path: 'editRdv/:id', component: RdvFormComponent },
+  { path: 'editFormation/:id', component: FormationFormComponent },
+  { path: 'editAnnuaire/:id', component: AnnuaireFormComponent },
+  { path: 'editVideoPodcast/:id', component: VideoPodcastFormComponent },
+
+
 
 
   //auth

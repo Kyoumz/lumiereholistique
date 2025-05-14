@@ -387,6 +387,210 @@ app.post('/api/my-formations/:formationId', authenticateToken, async (req, res) 
     res.status(500).json({ error: 'Erreur lors de l’ajout de la formation' });
   }
 });
+
+/* --- UPDATE & DELETE --- */
+
+// Appointments
+app.put('/api/appointments/:id', uploadImage.single('image'), async (req, res) => {
+  try {
+    const appointment = await Appointment.findByPk(req.params.id);
+    if (!appointment) return res.status(404).json({ error: 'Rendez-vous non trouvé' });
+
+    const image = req.file ? req.file.path.replace(/\\/g, '/') : appointment.image;
+    await appointment.update({ ...req.body, image });
+    res.json(appointment);
+  } catch {
+    res.status(500).json({ error: 'Erreur modification rendez-vous' });
+  }
+});
+
+app.delete('/api/appointments/:id', async (req, res) => {
+  try {
+    const deleted = await Appointment.destroy({ where: { id: req.params.id } });
+    deleted ? res.json({ message: 'Rendez-vous supprimé' }) : res.status(404).json({ error: 'Non trouvé' });
+  } catch {
+    res.status(500).json({ error: 'Erreur suppression rendez-vous' });
+  }
+});
+
+// Articles
+app.put('/api/articles/:id', uploadImage.single('image'), async (req, res) => {
+  try {
+    const article = await Article.findByPk(req.params.id);
+    if (!article) return res.status(404).json({ error: 'Article non trouvé' });
+
+    const image = req.file ? req.file.path.replace(/\\/g, '/') : article.image;
+    await article.update({ ...req.body, image });
+    res.json(article);
+  } catch {
+    res.status(500).json({ error: 'Erreur modification article' });
+  }
+});
+
+app.delete('/api/articles/:id', async (req, res) => {
+  try {
+    const deleted = await Article.destroy({ where: { id: req.params.id } });
+    deleted ? res.json({ message: 'Article supprimé' }) : res.status(404).json({ error: 'Non trouvé' });
+  } catch {
+    res.status(500).json({ error: 'Erreur suppression article' });
+  }
+});
+
+// Chapters
+app.put('/api/chapters/:id', uploadVideo.single('video'), async (req, res) => {
+  try {
+    const chapter = await Chapter.findByPk(req.params.id);
+    if (!chapter) return res.status(404).json({ error: 'Chapitre non trouvé' });
+
+    const video = req.file ? req.file.path.replace(/\\/g, '/') : chapter.video;
+    await chapter.update({ ...req.body, video });
+    res.json(chapter);
+  } catch {
+    res.status(500).json({ error: 'Erreur modification chapitre' });
+  }
+});
+
+app.delete('/api/chapters/:id', async (req, res) => {
+  try {
+    const deleted = await Chapter.destroy({ where: { id: req.params.id } });
+    deleted ? res.json({ message: 'Chapitre supprimé' }) : res.status(404).json({ error: 'Non trouvé' });
+  } catch {
+    res.status(500).json({ error: 'Erreur suppression chapitre' });
+  }
+});
+
+// Directories
+app.put('/api/directories/:id', uploadImage.single('image'), async (req, res) => {
+  try {
+    const directory = await Directory.findByPk(req.params.id);
+    if (!directory) return res.status(404).json({ error: 'Élément non trouvé' });
+
+    const image = req.file ? req.file.path.replace(/\\/g, '/') : directory.image;
+    await directory.update({ ...req.body, image });
+    res.json(directory);
+  } catch {
+    res.status(500).json({ error: 'Erreur modification directory' });
+  }
+});
+
+app.delete('/api/directories/:id', async (req, res) => {
+  try {
+    const deleted = await Directory.destroy({ where: { id: req.params.id } });
+    deleted ? res.json({ message: 'Élément supprimé' }) : res.status(404).json({ error: 'Non trouvé' });
+  } catch {
+    res.status(500).json({ error: 'Erreur suppression directory' });
+  }
+});
+
+// Formations
+app.put('/api/formations/:id', uploadImage.single('image'), async (req, res) => {
+  try {
+    const formation = await Formation.findByPk(req.params.id);
+    if (!formation) return res.status(404).json({ error: 'Formation non trouvée' });
+
+    const image = req.file ? req.file.path.replace(/\\/g, '/') : formation.image;
+    await formation.update({ ...req.body, image });
+    res.json(formation);
+  } catch {
+    res.status(500).json({ error: 'Erreur modification formation' });
+  }
+});
+
+app.delete('/api/formations/:id', async (req, res) => {
+  try {
+    const deleted = await Formation.destroy({ where: { id: req.params.id } });
+    deleted ? res.json({ message: 'Formation supprimée' }) : res.status(404).json({ error: 'Non trouvée' });
+  } catch {
+    res.status(500).json({ error: 'Erreur suppression formation' });
+  }
+});
+
+// UserFormations
+app.delete('/api/users/:userId/formations/:formationId', async (req, res) => {
+  try {
+    const user = await User.findByPk(req.params.userId);
+    const formation = await Formation.findByPk(req.params.formationId);
+    if (!user || !formation) return res.status(404).json({ error: 'Introuvable' });
+
+    await user.removeFormation(formation);
+    res.json({ message: 'Formation retirée de l’utilisateur' });
+  } catch {
+    res.status(500).json({ error: 'Erreur suppression de la formation de l’utilisateur' });
+  }
+});
+
+// Users
+app.put('/api/users/:id', async (req, res) => {
+  try {
+    const user = await User.findByPk(req.params.id);
+    if (!user) return res.status(404).json({ error: 'Utilisateur non trouvé' });
+
+    await user.update(req.body);
+    res.json(user);
+  } catch {
+    res.status(500).json({ error: 'Erreur modification utilisateur' });
+  }
+});
+
+app.delete('/api/users/:id', async (req, res) => {
+  try {
+    const deleted = await User.destroy({ where: { id: req.params.id } });
+    deleted ? res.json({ message: 'Utilisateur supprimé' }) : res.status(404).json({ error: 'Non trouvé' });
+  } catch {
+    res.status(500).json({ error: 'Erreur suppression utilisateur' });
+  }
+});
+
+// VideosPodcasts
+app.put('/api/videos-podcasts/:id', uploadVP.single('file'), async (req, res) => {
+  try {
+    const item = await VideosPodcast.findByPk(req.params.id);
+    if (!item) return res.status(404).json({ error: 'Contenu non trouvé' });
+
+    const file = req.file ? req.file.path.replace(/\\/g, '/') : item.file;
+    await item.update({ ...req.body, file });
+    res.json(item);
+  } catch {
+    res.status(500).json({ error: 'Erreur modification vidéo/podcast' });
+  }
+});
+
+app.delete('/api/videos-podcasts/:id', async (req, res) => {
+  try {
+    const deleted = await VideosPodcast.destroy({ where: { id: req.params.id } });
+    deleted ? res.json({ message: 'Supprimé avec succès' }) : res.status(404).json({ error: 'Non trouvé' });
+  } catch {
+    res.status(500).json({ error: 'Erreur suppression vidéo/podcast' });
+  }
+});
+
+app.get('/api/directories/:id', async (req, res) => {
+  try {
+    const directory = await Directory.findByPk(req.params.id);
+    directory ? res.json(directory) : res.status(404).json({ error: 'Élément non trouvé' });
+  } catch {
+    res.status(500).json({ error: 'Erreur récupération directory' });
+  }
+});
+
+app.get('/api/appointments/:id', async (req, res) => {
+  try {
+    const appointment = await Appointment.findByPk(req.params.id);
+    appointment ? res.json(appointment) : res.status(404).json({ error: 'Rendez-vous non trouvé' });
+  } catch {
+    res.status(500).json({ error: 'Erreur récupération rendez-vous' });
+  }
+});
+
+app.get('/api/videos-podcasts/:id', async (req, res) => {
+  try {
+    const item = await VideosPodcast.findByPk(req.params.id);
+    item ? res.json(item) : res.status(404).json({ error: 'Non trouvé' });
+  } catch {
+    res.status(500).json({ error: 'Erreur récupération contenu' });
+  }
+});
+
 // Définir la fonction pour créer l'admin par défaut
 const createDefaultAdmin = async () => {
   const adminEmail = process.env.DEFAULT_ADMIN_EMAIL || 'admin@example.com';

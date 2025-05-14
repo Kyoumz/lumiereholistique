@@ -1,31 +1,59 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { RouterModule, ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { PagesService } from '../../services/pages.service';
-import { HeaderComponent } from '../../header/headerFooter/header/header.component';
 
 @Component({
   selector: 'app-annuaire-form',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterModule, CommonModule, HeaderComponent],
+  imports: [ReactiveFormsModule, RouterModule, CommonModule],
   templateUrl: './annuaire-form.component.html',
   styleUrl: './annuaire-form.component.scss'
 })
-
-export class AnnuaireFormComponent {
+export class AnnuaireFormComponent implements OnInit {
   directoryForm: FormGroup;
   successMessage = '';
   errorMessage = '';
   selectedImage: File | null = null;
   imagePreview: string | null = null;
+  isEditMode = false;
+  directoryId: string | null = null;
 
-  constructor(private fb: FormBuilder, private PagesService: PagesService) {
+  constructor(
+    private fb: FormBuilder,
+    private PagesService: PagesService,
+    private route: ActivatedRoute
+  ) {
     this.directoryForm = this.fb.group({
       name: ['', Validators.required],
       description: ['', Validators.required],
-      image: [''] // on garde juste pour compatibilité
+      image: [''] // pour compatibilité avec l'API
     });
+  }
+
+  ngOnInit(): void {
+    this.directoryId = this.route.snapshot.paramMap.get('id');
+    this.isEditMode = !!this.directoryId;
+
+    if (this.isEditMode && this.directoryId) {
+      this.PagesService.getDirectoryById(this.directoryId).subscribe({
+        next: (data) => {
+          this.directoryForm.patchValue({
+            name: data.name,
+            description: data.description
+          });
+
+          if (data.image) {
+            this.imagePreview = data.image;
+          }
+        },
+        error: (err) => {
+          this.errorMessage = 'Erreur lors du chargement des données.';
+          console.error(err);
+        }
+      });
+    }
   }
 
   onImageSelected(event: any) {
@@ -50,9 +78,13 @@ export class AnnuaireFormComponent {
         formData.append('image', this.selectedImage);
       }
 
-      this.PagesService.addDirectories(formData).subscribe({
-        next: (res) => {
-          this.successMessage = 'Entrée ajoutée avec succès !';
+      const request = this.isEditMode && this.directoryId
+        ? this.PagesService.updateDirectory(this.directoryId, formData)
+        : this.PagesService.addDirectories(formData);
+
+      request.subscribe({
+        next: () => {
+          this.successMessage = this.isEditMode ? 'Entrée mise à jour avec succès !' : 'Entrée ajoutée avec succès !';
           this.errorMessage = '';
           this.directoryForm.reset();
           this.selectedImage = null;
@@ -60,7 +92,7 @@ export class AnnuaireFormComponent {
         },
         error: (err) => {
           this.successMessage = '';
-          this.errorMessage = "Erreur lors de l’ajout.";
+          this.errorMessage = 'Erreur lors de la soumission.';
           console.error(err);
         }
       });
