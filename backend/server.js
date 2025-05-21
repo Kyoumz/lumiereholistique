@@ -6,6 +6,8 @@ const fs = require('fs');
 const multer = require('multer');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const nodemailer = require('nodemailer');
+const sendMail = require('./models/mailer');
 
 const sequelize = require('./db');
 const setupAssociations = require('./models/associations');
@@ -99,6 +101,8 @@ app.post('/api/login', async (req, res) => {
     res.status(500).json({ error: 'Erreur lors de la connexion' });
   }
 });
+
+
 
 /* --- USERS --- */
 app.post('/api/users', async (req, res) => {
@@ -590,6 +594,33 @@ app.get('/api/videos-podcasts/:id', async (req, res) => {
     res.status(500).json({ error: 'Erreur récupération contenu' });
   }
 });
+
+
+
+
+app.post('/api/contact', async (req, res) => {
+  const { nom, email, message } = req.body;
+
+  if (!nom || !email || !message) {
+    return res.status(400).json({ error: 'Champs requis manquants' });
+  }
+
+  const subject = `Nouveau message de contact de ${nom}`;
+  const html = `
+    <h2>Message de : ${nom}</h2>
+    <p><strong>Email :</strong> ${email}</p>
+    <p><strong>Message :</strong><br>${message}</p>
+  `;
+
+  try {
+    await sendMail(process.env.RECEIVER_EMAIL, subject, html);
+    res.status(200).json({ message: 'Email envoyé avec succès' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Erreur lors de l’envoi de l’email' });
+  }
+});
+
 
 // Définir la fonction pour créer l'admin par défaut
 const createDefaultAdmin = async () => {

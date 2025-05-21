@@ -20,6 +20,7 @@ import { AnnuaireFormComponent } from './admin/annuaire-form/annuaire-form.compo
 import { MycoursdetailComponent } from './auth/mycours/mycoursdetail/mycoursdetail.component';
 import { PanneladminComponent } from './admin/panneladmin/panneladmin.component';
 import { AuthGuard } from '../auth.guard';
+import { AdminGuard } from '../admin.guard';
 
 export const routes: Routes = [
   //page
@@ -35,26 +36,23 @@ export const routes: Routes = [
   { path: 'VideosPodcasts', component: VideosPodcastsComponent }, 
 
   //admin
-  { path: 'creeRdv', component: RdvFormComponent }, 
+  { path: 'creeRdv', component: RdvFormComponent,canActivate: [AuthGuard, AdminGuard] }, 
   { path: 'creeFormation', component: FormationFormComponent }, 
   { path: 'creeArticle', component: ArticleFormComponent }, 
   { path: 'creeAnnuaire', component: AnnuaireFormComponent }, 
-  { path: 'creeVideoPodcast', component: VideoPodcastFormComponent }, 
-  { path: 'admin', component: PanneladminComponent }, 
+  // { path: 'creeVideoPodcast', component: VideoPodcastFormComponent }, 
+  { path: 'admin', component: PanneladminComponent,canActivate: [AdminGuard] }, 
+  { path: 'admin', component: PanneladminComponent}, 
+
   { path: 'editArticle/:id', component: ArticleFormComponent },
   { path: 'editRdv/:id', component: RdvFormComponent },
   { path: 'editFormation/:id', component: FormationFormComponent },
   { path: 'editAnnuaire/:id', component: AnnuaireFormComponent },
   { path: 'editVideoPodcast/:id', component: VideoPodcastFormComponent },
 
-
-
-
   //auth
   { path: 'login', component: LoginComponent }, 
   { path: 'signin', component: SignInComponent }, 
-  // { path: 'mycours', component: MycoursComponent }, 
-  // { path: 'mycours/:id', component: MycoursdetailComponent}, 
   { path: 'mycours', component: MycoursComponent, canActivate: [AuthGuard] }, 
   { path: 'mycours/:id', component: MycoursdetailComponent, canActivate: [AuthGuard] }, 
 

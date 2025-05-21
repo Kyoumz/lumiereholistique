@@ -9,7 +9,7 @@ export class EmailService {
 
   constructor(private http: HttpClient) {}
 
-  sendEmail(formData: any) {
+  sendContactMessage(formData: any) {
     return this.http.post(this.apiUrl, formData);
   }
 }

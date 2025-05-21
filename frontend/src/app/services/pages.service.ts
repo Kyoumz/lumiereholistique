@@ -63,7 +63,7 @@ export class PagesService {
     return this.http.get<any[]>(`${this.API_URL}/api/formations`);
   }
 
-  getFormationsById(id: number): Observable<any> {
+  getFormationsById(id: any): Observable<any> {
     return this.http.get<any>(`${this.API_URL}/api/formations/${id}`);
   }
 
@@ -150,28 +150,27 @@ export class PagesService {
     return this.http.get<any>(`${this.API_URL}/api/appointments/${id}`);
   }
 
-  // Récupérer un annuaire par son ID
+
 getDirectoryById(id: string) {
-  return this.http.get<any>(`/api/directories/${id}`);
+  return this.http.get<any>(`${this.API_URL}/api/directories/${id}`);
 }
 
-// Mettre à jour un annuaire existant
-updateDirectory(id: string, formData: FormData) {
-  return this.http.put(`/api/directories/${id}`, formData);
-}
+
 
 // Récupération d'un podcast/vidéo par ID
 getVideoPodcastById(id: string) {
-  return this.http.get<any>(`/api/videos-podcasts/${id}`);
+  return this.http.get<any>(`${this.API_URL}/api/videos-podcasts/${id}`);
 }
 
-// Mise à jour
+
+
+updateDirectory(id: string, formData: FormData) {
+  return this.http.put(`${this.API_URL}/api/directories/${id}`, formData);
+}
+
 updateVideoPodcast(id: string, formData: FormData) {
-  return this.http.put(`/api/videos-podcasts/${id}`, formData);
+  return this.http.put(`${this.API_URL}/api/videos-podcasts/${id}`, formData);
 }
-
-
-
 }
 
   
