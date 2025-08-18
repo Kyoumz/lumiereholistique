@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { environment } from '../environement'; // Assure-toi que le chemin est correct
+import { Observable, tap } from 'rxjs';
+import { environment } from '../environement'; 
 
 interface RegisterData {
   name: string;
@@ -28,6 +28,20 @@ export class AuthService {
   }
 
   login(data: LoginData): Observable<any> {
-    return this.http.post(`${this.API_URL}/api/login`, data);
+    return this.http.post<any>(`${this.API_URL}/api/login`, data).pipe(
+      tap((response) => {
+        localStorage.setItem('token', response.token);
+        localStorage.setItem('user', JSON.stringify(response.user));
+      })
+    );
   }
+
+  forgotPassword(email: string): Observable<any> {
+    return this.http.post(`${this.API_URL}/api/forgot-password`, { email });
+  }
+  
+  resetPassword(token: string, password: string): Observable<any> {
+    return this.http.post(`${this.API_URL}/api/reset-password`, { token, password });
+  }
+  
 }

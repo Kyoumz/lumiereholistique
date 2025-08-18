@@ -1,0 +1,14 @@
+<div *ngIf="status === 'pending'">
+    <p>Veuillez patienter...</p>
+  </div>
+  
+  <div *ngIf="status === 'success'">
+    <h2>✅ Email confirmé</h2>
+    <p>Votre compte a été activé. Vous pouvez maintenant <a routerLink="/login">vous connecter</a>.</p>
+  </div>
+  
+  <div *ngIf="status === 'invalid'">
+    <h2>❌ Lien invalide</h2>
+    <p>Le lien est invalide ou expiré. Essayez de vous réinscrire.</p>
+  </div>
+  

@@ -19,15 +19,17 @@
       <li><a href="/formation">Formation</a></li>
       <li><a href="/rdv">Rdv & accompagnement</a></li>
       <li><a href="/contact">Contact</a></li>
-<!-- Si pas connecté -->
-<li *ngIf="!isLoggedIn">
-  <a href="/login" class="login-btn">Connexion</a>
-</li>
+
 
 <!-- Si connecté -->
 <li *ngIf="isLoggedIn" class="login-btn">
   <a href="/mycours">{{ userName }}</a>
 </li>
+<!-- Si pas connecté -->
+<li *ngIf="!isLoggedIn">
+  <a href="/login" class="login-btn">Connexion</a>
+</li>
+
 <li *ngIf="isLoggedIn" class="user-menu">
   <button (click)="logout()" class="logout-btn">Déconnexion</button>
 </li>

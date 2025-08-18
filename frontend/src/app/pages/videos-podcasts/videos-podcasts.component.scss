@@ -1,72 +1,70 @@
 .vp-main {
-    padding: 100px 20px;
-    max-width: 1200px;
-    margin: 0 auto;
-    font-family: Arial, sans-serif;
-  }
-  
-  .vp-title {
-    font-size: 2.5rem;
-    text-align: center;
-    margin-bottom: 40px;
-    color: #333;
-  }
-  
-  .vp-section {
-    margin-bottom: 60px;
-  }
-  
-  .vp-subtitle {
-    font-size: 2rem;
-    margin-bottom: 20px;
-    color: #444;
-    border-bottom: 2px solid #66b4cc;
-    padding-bottom: 10px;
-  }
-  
+  padding: 80px 20px;
+  max-width: 1400px;
+  margin: 0 auto;
+  font-family: Roboto, Arial, sans-serif;
+}
+
+.vp-title {
+  font-size: 2.5rem;
+  text-align: left;
+  margin-bottom: 40px;
+  color: #0f0f0f;
+  font-weight: 600;
+}
+
+.vp-grid {
+  display: grid;
+  gap: 30px;
+  grid-template-columns: 1fr; /* mobile */
+}
+
+@media (min-width: 768px) {
   .vp-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 30px;
+    grid-template-columns: repeat(2, 1fr); /* tablette */
   }
-  
-  .vp-card {
-    background: #fff;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    padding: 15px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+}
+
+@media (min-width: 992px) {
+  .vp-grid {
+    grid-template-columns: repeat(3, 1fr); /* desktop */
   }
-  
-  .vp-video {
-    width: 100%;
-    aspect-ratio: 16/9;
-    border-radius: 8px;
-  }
-  
-  .vp-audio {
-    width: 100%;
-  }
-  
-  .vp-info h3 {
-    font-size: 1.2rem;
-    color: #222;
-  }
-  
-  .vp-info p {
-    font-size: 0.95rem;
-    color: #666;
-  }
-  
-  .vp-video {
-    width: 100%;
-    aspect-ratio: 16/9;
-    border-radius: 12px;
-    border: 3px solid #66b4cc;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    background-color: #000;
-    overflow: hidden;
-  }
-  
+}
+
+.vp-card {
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s;
+  display: flex;
+  flex-direction: column;
+}
+
+.vp-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+}
+
+.vp-card video {
+  width: 100%;
+  aspect-ratio: 16/9;
+  background-color: #000;
+}
+
+.vp-card-content {
+  padding: 15px;
+}
+
+.vp-card-content h2 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: #0f0f0f;
+}
+
+.vp-card-content p {
+  font-size: 0.95rem;
+  color: #606060;
+  margin: 0;
+}

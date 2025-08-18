@@ -171,6 +171,22 @@ updateDirectory(id: string, formData: FormData) {
 updateVideoPodcast(id: string, formData: FormData) {
   return this.http.put(`${this.API_URL}/api/videos-podcasts/${id}`, formData);
 }
+
+// Commentaires
+getCommentsByArticleId(articleId: string): Observable<any[]> {
+  return this.http.get<any[]>(`${this.API_URL}/api/articles/${articleId}/comments`);
 }
 
-  
+addCommentToArticle(articleId: string, commentData: any): Observable<any> {
+  return this.http.post<any>(`${this.API_URL}/api/articles/${articleId}/comments`, commentData);
+}
+
+createStripeSession(formationId: number) {
+  return this.http.post<{ id: string }>(
+    `${environment.apiUrl}/create-checkout-session`, 
+    { formationId }
+  );
+}
+
+}
+

@@ -1,21 +1,24 @@
 <app-header></app-header>
 
 <!-- Notification message -->
-<div *ngIf="message"
-     [ngClass]="{'success-msg': messageType === 'success', 'error-msg': messageType === 'error'}"
-     class="notification">
-  {{ message }}
-</div>
 
 <div class="auth-container">
   <div class="form-box">
+    <div *ngIf="message"
+         [ngClass]="{'success-msg': messageType === 'success', 'error-msg': messageType === 'error'}"
+         class="notification">
+      {{ message }}
+    </div>
     <h2>Connexion</h2>
     <form (ngSubmit)="onSubmit()">
       <input type="email" placeholder="Email" [(ngModel)]="email" name="email" required />
       <input type="password" placeholder="Mot de passe" [(ngModel)]="password" name="password" required />
       <button type="submit">Se connecter</button>
     </form>
+
+    <!-- ✅ Ajout du lien mot de passe oublié -->
+    <p><a href="/forgot-password">Mot de passe oublié ?</a></p>
+
     <p>Pas encore inscrit ? <a href="/signin">Créer un compte</a></p>
   </div>
 </div>
-

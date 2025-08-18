@@ -1,0 +1,26 @@
+.verify-container {
+    text-align: center;
+    padding: 2rem;
+  
+    .message {
+      font-size: 1.2rem;
+      padding: 1rem;
+      border-radius: 8px;
+      margin-top: 1rem;
+  
+      &.success {
+        background-color: #e6ffe6;
+        color: #2e7d32;
+      }
+  
+      &.error {
+        background-color: #ffe6e6;
+        color: #c62828;
+      }
+  
+      &.info {
+        color: #555;
+      }
+    }
+  }
+  

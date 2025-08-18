@@ -16,9 +16,9 @@ import { environment } from '../../environement';
 export class ArticleDetailComponent implements OnInit {
   article: any;
   environment = environment;
-  comment = { name: '', email: '', website: '', message: '' };
+  comment = { author: '', content: '' };
   comments: any[] = [];
-  
+
   constructor(
     private route: ActivatedRoute,
     private PagesService: PagesService
@@ -30,18 +30,36 @@ export class ArticleDetailComponent implements OnInit {
       this.PagesService.getArticleById(articleId).subscribe(
         (data) => {
           this.article = data;
+          this.loadComments(articleId);
         },
         (error) => {
-          console.error('Erreur lors de la récupération de l\'article', error);
+          console.error('Erreur article :', error);
         }
       );
     }
   }
 
+  loadComments(articleId: string) {
+    this.PagesService.getCommentsByArticleId(articleId).subscribe(
+      (data) => {
+        this.comments = data;
+      },
+      (err) => console.error('Erreur chargement commentaires :', err)
+    );
+  }
+
   submitComment() {
-    if (this.comment.message && this.comment.name && this.comment.email) {
-      this.comments.push({ ...this.comment });
-      this.comment = { name: '', email: '', website: '', message: '' }; 
+    const articleId = this.route.snapshot.paramMap.get('id');
+    if (articleId && this.comment.author && this.comment.content) {
+      this.PagesService.addCommentToArticle(articleId, this.comment).subscribe(
+        (newComment) => {
+          this.comments.unshift(newComment); // ajoute le nouveau en haut
+          this.comment = { author: '', content: '' };
+        },
+        (err) => {
+          console.error('Erreur ajout commentaire :', err);
+        }
+      );
     }
   }
 }

@@ -8,13 +8,16 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
 const sendMail = require('./models/mailer');
-
+const crypto = require('crypto');
+const { Op } = require('sequelize');
 const sequelize = require('./db');
 const setupAssociations = require('./models/associations');
 const authenticateToken = require('./middlewares/auth');
 
+const Stripe = require('stripe');
 const User = require('./models/Users');
 const Article = require('./models/Articles');
+const Comment = require('./models/Comment');
 const Formation = require('./models/Formations');
 const Appointment = require('./models/Appointments');
 const VideosPodcast = require('./models/VideosPodcast');
@@ -74,19 +77,131 @@ const vpFilter = (_, file, cb) => {
 };
 const uploadVP = multer({ storage: vpStorage, fileFilter: vpFilter });
 
+/**STRIPE */
+
+const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
+app.post('/create-checkout-session', async (req, res) => {
+  const { formationId } = req.body;
+
+  try {
+    const formation = await Formation.findByPk(formationId);
+    if (!formation) return res.status(404).json({ error: 'Formation non trouvée' });
+
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ['card'],
+      line_items: [{
+        price_data: {
+          currency: 'eur',
+          product_data: { name: formation.title },
+          unit_amount: Math.round(formation.price * 100),
+        },
+        quantity: 1,
+      }],
+      mode: 'payment',
+      success_url: 'http://localhost:4200/mycours',
+      
+      cancel_url: 'http://localhost:4200/formation',
+    });
+
+    res.json({ id: session.id });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+
+app.post('/webhook', express.raw({ type: 'application/json' }), async (req, res) => {
+  let event;
+  try {
+    const sig = req.headers['stripe-signature'];
+    event = stripe.webhooks.constructEvent(req.body, sig, process.env.STRIPE_WEBHOOK_SECRET);
+  } catch (err) {
+    console.error('Webhook signature error:', err.message);
+    return res.status(400).send(`Webhook Error: ${err.message}`);
+  }
+
+  if (event.type === 'checkout.session.completed') {
+    const session = event.data.object;
+
+    const formationId = session.metadata.formationId;
+    const userId = session.metadata.userId;
+
+    if (formationId && userId) {
+      try {
+        // 🔁 Ajoute ici ta logique : lier la formation à l'utilisateur
+        await UserFormation.create({ userId, formationId });
+        console.log(`[Stripe] Formation ${formationId} achetée par user ${userId}`);
+      } catch (err) {
+        console.error('Erreur assignation formation post-achat', err);
+      }
+    }
+  }
+
+  res.status(200).json({ received: true });
+});
+
+
 /* --- AUTH --- */
+
 app.post('/api/register', async (req, res) => {
   const { name, email, password, role } = req.body;
+
   try {
     const existingUser = await User.findOne({ where: { email } });
-    if (existingUser) return res.status(400).json({ error: 'Email déjà utilisé' });
+    if (existingUser) {
+      return res.status(400).json({ error: 'Email déjà utilisé' });
+    }
 
-    const newUser = await User.create({ name, email, password, role });
-    res.status(201).json({ message: 'Utilisateur créé', user: newUser });
+    const hashedPassword = await bcrypt.hash(password, 10); // si tu hashes
+
+    // Génère le token unique
+    const verificationToken = crypto.randomBytes(32).toString('hex');
+    const verificationUrl = `http://localhost:5000/api/verify-email?token=${verificationToken}`;
+
+    // Crée l'utilisateur
+    const newUser = await User.create({
+      name,
+      email,
+      password: hashedPassword,
+      role,
+      verificationToken,
+      isVerified: false, 
+    });
+
+    // Envoie l'email
+    await sendMail(
+      email,
+      'Confirme ton inscription',
+      `<h2>Bienvenue ${name} 👋</h2>
+       <p>Clique sur le lien suivant pour confirmer ton compte :</p>
+       <a href="${verificationUrl}">${verificationUrl}</a>
+       <p>Si tu n’as pas demandé ça, ignore simplement cet email.</p>`
+    );
+
+    res.status(201).json({ message: 'Utilisateur créé. Vérifie ton email.' });
+
   } catch (err) {
+    console.error(err);
     res.status(500).json({ error: 'Erreur lors de l’inscription' });
   }
 });
+
+app.post('/api/verify-email', async (req, res) => {
+  const token = req.query.token;
+
+  const user = await User.findOne({ where: { verificationToken: token } });
+
+  if (!user) {
+    return res.redirect('http://localhost:4200/verify-email?status=invalid');
+  }
+
+  user.isVerified = true;
+  user.verificationToken = null;
+  await user.save();
+
+  return res.redirect('http://localhost:4200/verify-email?status=success');
+});
+
 
 app.post('/api/login', async (req, res) => {
   const { email, password } = req.body;
@@ -146,12 +261,96 @@ app.get('/api/articles', async (_, res) => {
 
 app.get('/api/articles/:id', async (req, res) => {
   try {
-    const article = await Article.findByPk(req.params.id);
-    article ? res.json(article) : res.status(404).json({ error: 'Article non trouvé' });
-  } catch {
+    const article = await Article.findByPk(req.params.id, {
+      include: [
+        {
+          model: Comment,
+          attributes: ['id', 'author', 'content', 'createdAt'], // choisis les champs que tu veux renvoyer
+        },
+      ],
+    });
+
+    if (!article) {
+      return res.status(404).json({ error: 'Article non trouvé' });
+    }
+
+    res.json(article);
+  } catch (err) {
+    console.error('Erreur récupération article :', err);
     res.status(500).json({ error: 'Erreur récupération article' });
   }
 });
+
+/*COMMNENT*/
+
+app.post('/api/articles/:articleId/comments', async (req, res) => {
+  const { author, content } = req.body;
+  const { articleId } = req.params;
+
+  try {
+    const article = await Article.findByPk(articleId);
+    if (!article) return res.status(404).json({ error: 'Article non trouvé' });
+
+    const comment = await article.createComment({ author, content });
+    res.status(201).json(comment);
+  } catch (err) {
+    console.error('Erreur création commentaire :', err);
+    res.status(500).json({ error: 'Erreur création commentaire' });
+  }
+});
+
+app.get('/api/articles/:articleId/comments', async (req, res) => {
+  try {
+    const comments = await Comment.findAll({
+      where: { articleId: req.params.articleId },
+      order: [['createdAt', 'DESC']],
+    });
+    res.json(comments);
+  } catch (err) {
+    console.error('Erreur récupération commentaires :', err);
+    res.status(500).json({ error: 'Erreur récupération commentaires' });
+  }
+});
+
+app.put('/api/articles/:articleId/comments/:commentId', async (req, res) => {
+  const { content, author } = req.body;
+  const { articleId, commentId } = req.params;
+
+  try {
+    const comment = await Comment.findOne({
+      where: { id: commentId, articleId: articleId },
+    });
+
+    if (!comment) return res.status(404).json({ error: 'Commentaire non trouvé' });
+
+    comment.content = content ?? comment.content;
+    comment.author = author ?? comment.author;
+    await comment.save();
+
+    res.json(comment);
+  } catch (err) {
+    console.error('Erreur mise à jour commentaire :', err);
+    res.status(500).json({ error: 'Erreur mise à jour commentaire' });
+  }
+});
+
+app.delete('/api/articles/:articleId/comments/:commentId', async (req, res) => {
+  const { articleId, commentId } = req.params;
+
+  try {
+    const deleted = await Comment.destroy({
+      where: { id: commentId, articleId: articleId },
+    });
+
+    if (!deleted) return res.status(404).json({ error: 'Commentaire non trouvé' });
+
+    res.json({ message: 'Commentaire supprimé' });
+  } catch (err) {
+    console.error('Erreur suppression commentaire :', err);
+    res.status(500).json({ error: 'Erreur suppression commentaire' });
+  }
+});
+
 
 /* --- FORMATIONS + CHAPITRES --- */
 const uploadMixed = multer({
@@ -597,7 +796,6 @@ app.get('/api/videos-podcasts/:id', async (req, res) => {
 
 
 
-
 app.post('/api/contact', async (req, res) => {
   const { nom, email, message } = req.body;
 
@@ -621,6 +819,89 @@ app.post('/api/contact', async (req, res) => {
   }
 });
 
+app.get('/api/verify-email', async (req, res) => {
+  try {
+    const token = req.query.token;
+    console.log('Token reçu:', token);
+
+    if (!token) {
+      console.log('Pas de token fourni.');
+      return res.redirect('http://localhost:4200/verify-email?status=invalid');
+    }
+
+    const user = await User.findOne({ where: { verificationToken: token } });
+
+    if (!user) {
+      console.log('Aucun utilisateur trouvé pour ce token.');
+      return res.redirect('http://localhost:4200/verify-email?status=invalid');
+    }
+
+    user.isVerified = true;
+    user.verificationToken = null;
+    await user.save();
+
+    console.log('Utilisateur vérifié :', user.email);
+
+    return res.redirect('http://localhost:4200/verify-email?status=success');
+  } catch (error) {
+    console.error('Erreur lors de la vérification de l\'email :', error);
+    return res.redirect('http://localhost:4200/verify-email?status=invalid');
+  }
+});
+
+
+app.post('/api/reset-password', async (req, res) => {
+  const { token, password } = req.body;
+  const user = await User.findOne({
+    where: {
+      resetPasswordToken: token,
+      resetPasswordExpires: { [Op.gt]: new Date() }
+    }
+  });
+
+  if (!user) {
+    return res.status(400).json({ error: 'Lien invalide ou expiré' });
+  }
+
+  const hashedPassword = await bcrypt.hash(password, 10);
+  user.password = hashedPassword;
+  user.resetPasswordToken = null;
+  user.resetPasswordExpires = null;
+  await user.save();
+
+  res.json({ message: 'Mot de passe mis à jour. Tu peux te connecter.' });
+});
+
+app.post('/api/forgot-password', async (req, res) => {
+  const { email } = req.body;
+  const user = await User.findOne({ where: { email } });
+
+  if (!user) {
+    return res.status(400).json({ error: 'Utilisateur non trouvé' });
+  }
+
+  const token = crypto.randomBytes(32).toString('hex');
+  const expires = new Date(Date.now() + 3600000); // 1h
+
+  user.resetPasswordToken = token;
+  user.resetPasswordExpires = expires;
+  await user.save();
+
+  const resetLink = `http://localhost:4200/reset-password?token=${token}`;
+
+  await sendMail(
+    email,
+    'Réinitialisation de mot de passe',
+    `<h3>Bonjour ${user.name}</h3>
+     <p>Tu as demandé à réinitialiser ton mot de passe.</p>
+     <p><a href="${resetLink}">Clique ici pour définir un nouveau mot de passe</a></p>
+     <p>Ce lien est valide 1 heure.</p>`
+  );
+
+  res.json({ message: 'Email envoyé avec les instructions.' });
+});
+
+
 
 // Définir la fonction pour créer l'admin par défaut
 const createDefaultAdmin = async () => {
@@ -634,6 +915,7 @@ const createDefaultAdmin = async () => {
       await User.create({
         name: adminName,
         email: adminEmail,
+        isVerified:true,
         password: adminPassword,
         role: 'admin'
       });
@@ -645,6 +927,8 @@ const createDefaultAdmin = async () => {
     console.error('❌ Erreur lors de la création de l’admin :', error);
   }
 };
+
+
 
 // Synchronisation de la base de données et création de l'admin par défaut
 const PORT = process.env.PORT || 5000;  // Valeur par défaut pour PORT

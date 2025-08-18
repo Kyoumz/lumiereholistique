@@ -1,7 +1,5 @@
     <app-header></app-header>
-    <button class="create-rdv-btn" ><a href="/mycours">Mes Cours</a></button>
-
-
+    <!-- <button class="create-rdv-btn" ><a href="/mycours">Mes Cours</a></button> -->
     <main>
         <div class="container">
             <h1 class="main-title">Espace formations</h1>
@@ -10,7 +8,7 @@
                 <img [src]="environment.apiUrl + '/' + formation.image" [alt]="formation.title" class="card-img">
                 <h2>{{ formation.title }}</h2>
                 <p>{{ formation.description }}</p>
-                <a [routerLink]="'/formation/' + formation.id" class="button">Acheter</a>
+                <a [routerLink]="'/formation/' + formation.id" class="button">Voir plus</a>
             </div>
         </div>
 

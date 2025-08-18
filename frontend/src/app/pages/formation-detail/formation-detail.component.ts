@@ -5,7 +5,7 @@ import { FooterComponent } from '../../header/headerFooter/footer/footer.compone
 import { CommonModule } from '@angular/common'; 
 import { PagesService } from '../../services/pages.service';
 import { environment } from '../../environement';
-
+import { StripeService } from '../../services/stripe.service';
 @Component({
   selector: 'app-formation-detail',
   imports: [HeaderComponent, FooterComponent, CommonModule], 
@@ -16,22 +16,33 @@ export class FormationDetailComponent implements OnInit {
   formation: any;
   environment = environment;
 
-  constructor(private route: ActivatedRoute, private PagesService: PagesService) {}
+  constructor(private route: ActivatedRoute, private PagesService: PagesService,private stripeService: StripeService) {}
+
+  // acheterFormation() {
+  //   const id = this.formation?.id;
+  //   if (!id) return;
+  
+  //   this.PagesService.addFormationToUser(id).subscribe(
+  //     () => {
+  //       alert('Formation ajoutée avec succès à votre compte !');
+  //     },
+  //     (error) => {
+  //       console.error('Erreur lors de l’achat de la formation', error);
+  //       alert('Erreur : impossible d’ajouter la formation.');
+  //     }
+  //   );
+  // }
+
 
   acheterFormation() {
-    const id = this.formation?.id;
-    if (!id) return;
+    if (!this.formation?.id) return;
   
-    this.PagesService.addFormationToUser(id).subscribe(
-      () => {
-        alert('Formation ajoutée avec succès à votre compte !');
-      },
-      (error) => {
-        console.error('Erreur lors de l’achat de la formation', error);
-        alert('Erreur : impossible d’ajouter la formation.');
-      }
-    );
+    localStorage.setItem('formationToAdd', JSON.stringify({ id: this.formation.id }));
+  
+    this.stripeService.checkout(this.formation.id);
   }
+  
+
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');

@@ -31,10 +31,12 @@
     ></textarea>
 
     <input type="submit" value="Envoyer" [disabled]="contactForm.invalid" />
+
+<p *ngIf="messageEnvoye" class="success">Message envoyé avec succès,nous vous recontacterons dans les plus bref délais.</p>
+<p *ngIf="erreurEnvoi" class="error">Une erreur est survenue.</p>
+
   </form>
 
-  <p *ngIf="messageEnvoye" class="success">Message envoyé avec succès.</p>
-  <p *ngIf="erreurEnvoi" class="error">Une erreur est survenue.</p>
 
   <div class="shape shape1"></div>
   <div class="shape shape2"></div>

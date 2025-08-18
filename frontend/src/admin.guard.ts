@@ -17,7 +17,6 @@ export class AdminGuard implements CanActivate {
     if (token && userData) {
       const user = JSON.parse(userData);
 
-      // Vérifie que l'utilisateur a bien le rôle "Admin"
       if (user.role === 'admin') {
         return true;
       }

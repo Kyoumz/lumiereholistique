@@ -22,16 +22,33 @@ export class MycoursComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    const formationToAdd = localStorage.getItem('formationToAdd');
+  
+    if (formationToAdd) {
+      const { id } = JSON.parse(formationToAdd);
+      this.pagesService.addFormationToUser(id).subscribe({
+        next: () => {
+          console.log('✔ Formation ajoutée après paiement');
+          localStorage.removeItem('formationToAdd');
+          this.loadFormations();
+        },
+        error: (err) => {
+          console.error('❌ Erreur ajout formation :', err);
+          this.loadFormations(); // On charge quand même les formations
+        }
+      });
+    } else {
+      this.loadFormations();
+    }
+  }
+  
+  loadFormations() {
     this.pagesService.getMyFormations().subscribe({
-      next: (data) => {
-        this.formations = data;
-        console.log('Formations récupérées :', data);
-      },
-      error: (err) => {
-        console.error('Erreur lors du chargement des formations', err);
-      }
+      next: (data) => this.formations = data,
+      error: (err) => console.error('Erreur chargement formations', err)
     });
   }
+  
 
   goToFormation(id: number): void {
     this.router.navigate(['/mycours', id]);

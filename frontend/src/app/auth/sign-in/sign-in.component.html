@@ -3,13 +3,21 @@
 <div class="auth-container">
   <div class="form-box">
     <h2>Inscription</h2>
+
+    <!-- Notification message affiché dans la box -->
+    <div *ngIf="message"
+         [ngClass]="{'success-msg': messageType === 'success', 'error-msg': messageType === 'error'}"
+         class="notification">
+      {{ message }}
+    </div>
+
     <form (ngSubmit)="onSubmit()">
       <input type="text" placeholder="Nom complet" [(ngModel)]="name" name="name" required />
       <input type="email" placeholder="Email" [(ngModel)]="email" name="email" required />
       <input type="password" placeholder="Mot de passe" [(ngModel)]="password" name="password" required />
       <button type="submit">S'inscrire</button>
     </form>
+
     <p>Déjà un compte ? <a href="/login">Se connecter</a></p>
   </div>
 </div>
-

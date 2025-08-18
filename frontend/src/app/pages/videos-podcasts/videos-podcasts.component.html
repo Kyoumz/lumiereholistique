@@ -2,23 +2,24 @@
 
 <main class="vp-main">
   <h1 class="vp-title">Vidéos & Podcasts</h1>
-  
+
   <div *ngIf="videosPodcasts.length > 0; else loading">
-    <div *ngFor="let video of videosPodcasts" class="vp-item">
-      <h2>{{ video.title }}</h2>
-      <p>{{ video.description }}</p>
-      <p><strong>Thème :</strong> {{ video.themes }}</p>
-  
-      <video *ngIf="video.file" controls width="600">
-        <source [src]="environment.apiUrl + '/' + video.file" type="video/mp4" />
-        Votre navigateur ne supporte pas la vidéo.
-      </video>
+    <div class="vp-grid">
+      <div *ngFor="let video of videosPodcasts" class="vp-card">
+        <video *ngIf="video.file" controls>
+          <source [src]="environment.apiUrl + '/' + video.file" type="video/mp4" />
+          Votre navigateur ne supporte pas la vidéo.
+        </video>
+        <div class="vp-card-content">
+          <h2>{{ video.title }}</h2>
+          <p>{{ video.description }}</p>
+        </div>
+      </div>
     </div>
   </div>
-  
 
   <ng-template #loading>
-    <p>Chargement des vidéos...</p>
+    <p>Aucune vidéo disponible</p>
   </ng-template>
 </main>
 

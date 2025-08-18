@@ -1,20 +1,22 @@
-import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-header',
   standalone: true,
   imports: [CommonModule],
   templateUrl: './header.component.html',
-  styleUrl: './header.component.scss'
+  styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent {
   isLoggedIn = false;
   userName = '';
 
+  constructor(private cdr: ChangeDetectorRef) {}
+
+
   ngOnInit(): void {
     const token = localStorage.getItem('token');
-
     if (token) {
       this.isLoggedIn = true;
       try {
@@ -24,6 +26,8 @@ export class HeaderComponent {
         console.error('Token invalide', e);
       }
     }
+    this.cdr.detectChanges();
+
   }
   
   logout() {

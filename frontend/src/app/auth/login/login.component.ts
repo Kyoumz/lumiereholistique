@@ -33,6 +33,7 @@ export class LoginComponent {
     this.authService.login({ email: this.email, password: this.password }).subscribe({
       next: (res) => {
         localStorage.setItem('token', res.token);
+        console.log(localStorage);
         this.showMessage(`Bienvenue ${res.user.name}`, 'success');
         this.router.navigate(['/mycours']);
       },

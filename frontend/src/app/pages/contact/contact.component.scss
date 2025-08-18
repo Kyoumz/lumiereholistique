@@ -165,3 +165,27 @@ body::after {
         transform: scale(1);
     }
 }
+
+.feedback-input {
+    color: #000; // Texte noir
+    background-color: #fff; // Fond blanc (ou choisis une autre couleur de fond)
+    border: 1px solid #ccc; // Optionnel : bordure légère
+    padding: 10px;
+    border-radius: 5px;
+  }
+  
+  .success, .error {
+    margin-top: 15px;
+    font-size: 16px;
+    text-align: center;
+    font-weight: bold;
+  }
+  
+  .success {
+    color: #28a745; // Vert pour le succès
+  }
+  
+  .error {
+    color: #dc3545; // Rouge pour l'erreur
+  }
+  
