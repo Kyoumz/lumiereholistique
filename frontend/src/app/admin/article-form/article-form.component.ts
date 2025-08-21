@@ -3,11 +3,12 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { Router, ActivatedRoute, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { PagesService } from '../../services/pages.service';
+import { EditorModule } from '@tinymce/tinymce-angular';
 
 @Component({
   selector: 'app-article-form',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterModule, CommonModule],
+  imports: [ReactiveFormsModule, RouterModule, CommonModule,EditorModule],
   templateUrl: './article-form.component.html',
   styleUrl: './article-form.component.scss'
 })
@@ -19,6 +20,22 @@ export class ArticleFormComponent implements OnInit {
   imagePreview: string | null = null;
   isEditMode = false;
   articleId: string | null = null;
+
+
+  editorConfig = {
+    editable: true,
+    spellcheck: true,
+    height: '15rem',
+    minHeight: '5rem',
+    placeholder: 'Écris ton article ici...',
+    translate: 'no',
+    defaultParagraphSeparator: 'p',
+    defaultFontName: 'Arial',
+    toolbarHiddenButtons: [
+      [], 
+      []  
+    ]
+  };
 
   constructor(
     private fb: FormBuilder,

@@ -6,6 +6,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms'; 
 import { PagesService } from '../../services/pages.service';
 import { environment } from '../../environement';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+
 @Component({
   selector: 'app-article-detail',
   standalone: true,
@@ -15,13 +17,15 @@ import { environment } from '../../environement';
 })
 export class ArticleDetailComponent implements OnInit {
   article: any;
+  safeContent: SafeHtml = '';
   environment = environment;
   comment = { author: '', content: '' };
   comments: any[] = [];
 
   constructor(
     private route: ActivatedRoute,
-    private PagesService: PagesService
+    private PagesService: PagesService,
+    private sanitizer: DomSanitizer
   ) {}
 
   ngOnInit(): void {
@@ -30,6 +34,8 @@ export class ArticleDetailComponent implements OnInit {
       this.PagesService.getArticleById(articleId).subscribe(
         (data) => {
           this.article = data;
+          // On sécurise le HTML tout en conservant les styles
+          this.safeContent = this.sanitizer.bypassSecurityTrustHtml(this.article.content);
           this.loadComments(articleId);
         },
         (error) => {

@@ -3,17 +3,14 @@
 <main>
   <div class="container">
     <div *ngIf="article">
-
       <img [src]="environment.apiUrl + '/' + article.image" [alt]="article.title" class="article-img">
-
       <h1>{{ article.title }}</h1>
-      <p>{{ article.content }}</p>
+      <div [innerHTML]="safeContent"></div>
     </div>
   </div>
 </main>
 
 <div class="comment-section">
-
   <div *ngIf="comments.length > 0">
     <h3>Commentaires :</h3>
     <div *ngFor="let com of comments" class="comment">
@@ -32,8 +29,6 @@
 
     <button type="submit">Publier</button>
   </form>
-
 </div>
-
 
 <app-footer></app-footer>

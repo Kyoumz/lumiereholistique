@@ -19,8 +19,27 @@
     <label for="description">Description:</label>
     <textarea id="description" formControlName="description"></textarea>
 
+    
+
     <label for="content">Contenu:</label>
-    <textarea id="content" formControlName="content" required></textarea>
+<editor
+  apiKey="uwjq2jdjhfexfgqtwrvz8p8n0gd6c1z7ghy4vdvwfsss2k4s"
+  formControlName="content"
+  [init]="{
+    height: 400,
+    menubar: true,
+    plugins: [
+      'advlist autolink lists link image charmap print preview anchor',
+      'searchreplace visualblocks code fullscreen',
+      'insertdatetime media table paste code help wordcount'
+    ],
+    toolbar:
+      'undo redo | formatselect | bold italic underline | \
+      alignleft aligncenter alignright alignjustify | \
+      bullist numlist outdent indent | removeformat | help'
+  }"
+></editor>
+
 
     <label for="image">Image:</label>
     <input type="file" id="image" (change)="onImageSelected($event)" />
