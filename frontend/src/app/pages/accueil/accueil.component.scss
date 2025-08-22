@@ -93,21 +93,20 @@ main::after {
   font-weight: bold;
 }
 
-/* Conteneur pour la vidéo */
+
 .video-container {
-  position: relative;
-  padding-top: 56.25%;
-  margin-bottom: 30px;
+  display: flex;
+  justify-content: center; /* centre horizontalement */
+  margin: 20px 0;
 }
 
-.video-container iframe {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+.video-container video {
+  max-width: 300px; /* largeur max réduite */
+  height: auto;
   border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
+
 
 /* Conteneur pour la présentation */
 .presentation-container {
